@@ -1,0 +1,125 @@
+.restaurants {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+    width: 74%;
+    margin: auto;
+}
+
+.restaurants__fiche {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.restaurants__fiche img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.restaurants__fiche__name--jour {
+    position: absolute;
+    top: 0px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, .5);
+    padding: 5px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, .8);
+    padding: 5px;
+    text-transform: capitalize;
+    font-family: cursive;
+    width: 100%;
+
+}
+
+.restaurants__fiche__name {
+    position: absolute;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, .5);
+    width: 100%;
+    color: white;
+    font-size: 18px;
+    word-break: break-word;
+    height: 132px;
+    font-weight: 600;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+
+}
+
+.restaurants__fiche__name--jour {
+    position: absolute;
+    top: 0px;
+}
+
+.ball {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    border: 5px double white;
+}
+
+.red {
+    background-color: red;
+}
+
+.green {
+    background-color: green;
+    animation-name: move;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+}
+
+.restaurants__fiche__name--titre {
+    font-size: 20px;
+    color: goldenrod;
+}
+
+.restaurants__fiche__name--phone {
+    position: absolute;
+    top: 35%;
+    margin: 0px;
+    padding: 0px;
+    color: black;
+    font-weight: 600;
+    font-size: 25px;
+    display: none;
+    background-color: rgba(255, 255, 255, .5);
+    width: 100%;
+    height: 200px;
+    justify-content: center;
+    animation-name: appearsFromRight;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.restaurants__fiche:hover .restaurants__fiche__name {
+    display: none;
+}
+
+.restaurants__fiche:hover .restaurants__fiche__name--phone {
+    display: flex;
+    cursor: pointer;
+}
