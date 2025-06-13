@@ -1,9 +1,7 @@
-.restaurants {
+.restaurants__content {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 25px;
-    width: 74%;
-    margin: auto;
+    padding: 55px;
 }
 
 .restaurants__fiche {
@@ -11,8 +9,8 @@
     display: flex;
     justify-content: center;
     text-align: center;
-    margin: 15px;
-    border-radius: 15px;
+    margin: 8px;
+    border-radius: 7px;
     overflow: hidden;
 }
 

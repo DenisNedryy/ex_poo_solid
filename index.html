@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -7,16 +7,25 @@
     <title>Ecorcerie Gestionnaire</title>
     <link rel="stylesheet" type="text/css" href="/public/assets/css/index.css" />
 </head>
-<header>
-    <Nav>
-        <ul class="nav__container">
-            <a href="/home" data-link><li>Accueil</li></a>
-            <a href="/daily-planning" data-link><li>Planning journalier</li></a>
-            <a href="/restaurants" data-link><li>Restaurants</li></a>
-        </ul>
-    </Nav>
-</header>
+
 <body>
+    <header>
+        <Nav class="bg_nav">
+            <img src="/public/assets/pictures/logos/logo_white.png"/>
+            <ul class="nav__container">
+                <a href="/home" data-link>
+                    <li class="btn-nav">Accueil</li>
+                </a>
+                <a href="/daily-planning" data-link>
+                    <li class="btn-nav">Planning journalier</li>
+                </a>
+                <a href="/restaurants" data-link>
+                    <li class="btn-nav">Restaurants</li>
+                </a>
+            </ul>
+        </Nav>
+    </header>
+
     <div id="root"></div>
     <script type="module" src="/public/js/index.js"></script>
 </body>

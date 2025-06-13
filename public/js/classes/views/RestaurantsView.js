@@ -37,7 +37,13 @@ export class RestaurantsView {
 
 
 
-            let sum = `<div class="restaurants">`;
+            let sum = `
+            <div class="restaurants"> 
+               <div class="restaurants__header bg_head">
+                    <h2>Restaurants</h2>
+                </div>
+                <div class="restaurants__content bg_main">
+            `; 
             listRestaus.forEach((resto) => {
                 sum += `
 <div class="restaurants__fiche">
@@ -55,7 +61,7 @@ export class RestaurantsView {
 </div>
 `
             });
-            sum+=`</div>`;
+            sum+=`</div></div>`;
             el.innerHTML = sum;
 
         }

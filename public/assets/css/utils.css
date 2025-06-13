@@ -2,3 +2,45 @@
     font-family: gentle;
     src: url('../fonts/FLOWER.ttf');
 }
+
+@font-face {
+    font-family: votrag;
+    src: url('../fonts/Votrag.otf');
+}
+
+.home,
+.restaurants,
+.dailyPlanning {
+    display: flex;
+    flex-direction:column;
+    border-left: 12px solid rgb(77, 82, 95);
+}
+
+/* .bg_main {
+    background-color: rgb(12, 12, 16);
+} */
+
+.bg_nav {
+    background-color: rgb(33, 34, 44);
+}
+
+.bg_head {
+    background-color: rgb(27, 29, 36);
+    font-size: 26px;
+    font-family: votrag;
+    padding-left: 15px;
+    border-bottom: 1px solid rgb(41, 43, 49);
+}
+
+.bg_main {
+    background-color: rgb(31, 33, 39);
+}
+
+.btn-nav {
+    border: 2px solid rgb(77, 80, 89);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px;
+    font-weight: 600;
+    font-size: 12px;
+}

@@ -1,0 +1,11 @@
+.home{
+    display:flex;
+    justify-content:center;
+    width:100%;
+    flex-direction:column;
+}
+
+.home__content {
+    display:flex;
+    justify-content:center;
+}

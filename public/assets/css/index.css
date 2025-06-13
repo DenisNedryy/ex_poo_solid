@@ -1,6 +1,11 @@
-@import "./miseEnPage.cs";
+@import "./miseEnPage.css";
 @import "./utils.css";
 @import "./animations.css";
 
 
-@import "./restaurants.css";
+/* layouts */
+@import "./layouts/header.css";
+
+/* pages */
+@import "./pages/restaurants.css";
+@import "./pages/home.css";
