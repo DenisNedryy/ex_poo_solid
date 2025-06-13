@@ -43,25 +43,22 @@ export class RestaurantsView {
                     <h2>Restaurants</h2>
                 </div>
                 <div class="restaurants__content bg_main">
-            `; 
+            `;
             listRestaus.forEach((resto) => {
                 sum += `
-<div class="restaurants__fiche">
-  <img src="/public/assets/pictures/restaurants/${resto.img_url}" />
-  <div class="restaurants__fiche__name">
-    <p class="restaurants__fiche__name--titre">${resto.name}</p>
- 
-    <p class="restaurants__fiche__name--horaires">${resto.horaires ? resto.horaires : "fermé"}</p>
-    </div>
-       <div class="restaurants__fiche__name--jour"><p>${jour}</p></div>
-  <div class="${resto.isOpenned ? "ball green" : "ball red"}"></div>
-  <div class="restaurants__fiche__name--phone">
-  <p>${this.getPhoneFormat(resto.phone)}</p>
-  </div>
-</div>
+                <div class="restaurants__fiche">
+                   <img src="/public/assets/pictures/restaurants/${resto.img_url}" />
+                   <div class="restaurants__fiche--name">
+                        <div class="${resto.isOpenned ? "ball green" : "ball red"}"></div>
+                         <p class="restaurants__fiche__name--titre">${resto.name}</p>
+                   </div>
+                    <p class="restaurants__fiche__name--horaires">${resto.horaires ? resto.horaires : "fermé"}</p>
+                    <div class="restaurants__fiche__name--jour"><p>${jour}</p></div>
+                    <p>${this.getPhoneFormat(resto.phone)}</p>
+                </div>
 `
             });
-            sum+=`</div></div>`;
+            sum += `</div></div>`;
             el.innerHTML = sum;
 
         }
