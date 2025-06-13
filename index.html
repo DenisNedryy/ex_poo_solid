@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programme Soir - thibault</title>
+    <title>Ecorcerie Gestionnaire</title>
     <link rel="stylesheet" type="text/css" href="/public/assets/index.css" />
 </head>
-
+<header>
+    <Nav>
+        <ul class="nav__container">
+            <a href="/home" data-link><li>Accueil</li></a>
+            <a href="/daily-planning" data-link><li>Planning journalier</li></a>
+            <a href="/restaurants" data-link><li>Restaurants</li></a>
+        </ul>
+    </Nav>
+</header>
 <body>
     <div id="root"></div>
     <script type="module" src="/public/js/index.js"></script>
