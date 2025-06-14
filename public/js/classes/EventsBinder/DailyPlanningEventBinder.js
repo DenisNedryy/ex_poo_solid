@@ -8,10 +8,8 @@ export class DailyPlanningEventBinder {
     }
 
     addEventListeners() {
-
-            document.removeEventListener('click', this.boundHandleClickTask);
-            document.addEventListener('click', this.boundHandleClickTask);
-        
+        document.removeEventListener('click', this.boundHandleClickTask);
+        document.addEventListener('click', this.boundHandleClickTask);
     }
 
     handleClickTask(e) {
@@ -20,9 +18,11 @@ export class DailyPlanningEventBinder {
 
             const task = e.target.closest(".tache__isDone");
             const index = task.getAttribute("data-index");
-            console.log(task);
             this.dailyPlanningModel.toggleTask(index);
+            this.dailyPlanningModel.checkIfisFinished(); // si finished alors affiche le gif
+
             this.view.render(this.dailyPlanningModel.planning);
+            if (this.dailyPlanningModel.isFinished) this.view.displayGif();
         }
     }
 }
