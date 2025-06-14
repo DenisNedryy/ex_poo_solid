@@ -28,7 +28,7 @@ const restaurantsView = new RestaurantsView();
 
 const dailyPlanningModel = new DailyPlanningModel();
 
-const dailyPlanningEventBinder = new DailyPlanningEventBinder(dailyPlanningModel); 
+const dailyPlanningEventBinder = new DailyPlanningEventBinder(dailyPlanningModel, dailyPlanningView); 
 
 const dailyPlanningCtrl = new DailyPlanningCtrl(dailyPlanningView, seoManager, dailyPlanningEventBinder);
 const homeCtrl = new HomeCtrl(homeView, seoManager);

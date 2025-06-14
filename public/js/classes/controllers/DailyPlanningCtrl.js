@@ -4,7 +4,6 @@ export class DailyPlanningCtrl {
         this.view = view;
         this.seoManager = seoManager;
         this.dailyPlanningEventBinder = dailyPlanningEventBinder;
-        this.verifyIfPlanningModelStarted();
     }
 
     init() {
@@ -18,6 +17,7 @@ export class DailyPlanningCtrl {
     }
 
     show() {
+        this.verifyIfPlanningModelStarted();
         this.view.render(this.dailyPlanningEventBinder.dailyPlanningModel.planning);
         this.seoManager.setTitle('Ecorcerie Gestionnaire - Planning du soir');
         this.dailyPlanningEventBinder.addEventListeners();
