@@ -48,6 +48,7 @@ export class RestaurantsView {
                 sum += `
                 <div class="restaurants__fiche">
                    <img src="/public/assets/pictures/restaurants/${resto.img_url}" />
+                   <div class="restaurants__fiche__text">
                    <div class="restaurants__fiche--name">
                         <div class="${resto.isOpenned ? "ball green" : "ball red"}"></div>
                          <p class="restaurants__fiche__name--titre">${resto.name}</p>
@@ -55,6 +56,7 @@ export class RestaurantsView {
                     <p class="restaurants__fiche__name--horaires">${resto.horaires ? resto.horaires : "fermé"}</p>
                     <div class="restaurants__fiche__name--jour"><p>${jour}</p></div>
                     <p>${this.getPhoneFormat(resto.phone)}</p>
+                    </div>
                 </div>
 `
             });

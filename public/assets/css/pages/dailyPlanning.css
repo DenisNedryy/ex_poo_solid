@@ -1,0 +1,33 @@
+.dailyPlanning{
+    padding: 15px;
+}
+.tache {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, .2);
+    margin: 10px;
+    width: fit-content;
+}
+
+.tache__isDone {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    margin-left: 15px;
+    cursor: pointer;
+    position: relative;
+}
+
+.check {
+    animation-name: sursaut;
+    animation-duration: .4s;
+    animation-fill-mode: forwards;
+}
+
+.tache__name {
+    min-width: 251px;
+}
