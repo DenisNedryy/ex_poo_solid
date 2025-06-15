@@ -16,7 +16,7 @@ export class ConnexionEventBinder {
         if (e.target.classList.contains("linkImg") || e.target.classList.contains("avatar")) {
             const link = e.target.closest(".linkImg");
             const avatar = link.children[0];
-            const name = avatar.getAttribute("data-name");
+            const name = avatar.getAttribute("data-name"); 
             this.utilsView.changeAvatar(name);
         }
     }

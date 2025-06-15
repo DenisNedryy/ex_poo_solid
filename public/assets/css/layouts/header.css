@@ -16,7 +16,8 @@ nav {
     display: flex;
     align-items: center;
 }
-.bg_nav__right{
+
+.bg_nav__right {
     margin-right: 35px;
 }
 
@@ -41,13 +42,80 @@ nav a {
 }
 
 /* avatar */
-.avatar {
-    width: 35px;
-    height: 35px;
+.avatarMenu {
+    width: 40px;
+    height: 40px;
+    animation-name: descendDuCiel;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    border-radius: 3px;
 }
 
-.avatar img {
+.avatarMenu img {
     width: 100%;
     height: 100%;
-    object-fit:cover;
+    object-fit: cover;
+}
+
+/* menu deroulant */
+.bg_nav__right__add__btn {
+    width: fit-content;
+    background-color: rgb(77, 82, 95);
+    padding: 2px;
+    border-radius: 3px;
+    margin-right: 9px;
+    height: 40px;
+}
+
+.bg_nav__right__add__btn .fa-thumbtack {
+    background-color: rgb(33, 34, 44);
+    padding: 10px 14px;
+    border-radius: 3px;
+}
+
+.bg_nav__right__add__btn .fa-angle-down {
+    padding: 5px;
+    transition-duration: .4s;
+}
+
+.bg_nav__right__add {
+    position: relative;
+    cursor: pointer;
+}
+
+.bg_nav__right__add:hover {
+    filter: brightness(.9);
+}
+
+.bg_nav__right__add ul {
+    position: absolute;
+    top: 110%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgb(77, 82, 95);
+    background-color: rgb(33, 34, 44);
+    padding: 3px;
+    transform: translateY(-10%);
+    transition-duration: .4s;
+    opacity: 0;
+}
+
+.bg_nav__right__add:hover ul {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.bg_nav__right__add:hover .fa-angle-down {
+    transform: translateY(5px);
+}
+
+.bg_nav__right__add ul li {
+    padding: 9px;
+    margin: 2px 0px;
+    cursor: pointer;
+}
+
+.bg_nav__right__add ul li:hover {
+    background-color: blueviolet;
 }

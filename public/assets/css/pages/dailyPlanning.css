@@ -1,7 +1,7 @@
 .dailyPlanning__content{
     padding: 15px;
     display:flex;
-    position:relative;
+    justify-content:center;
 }
 
 .tache {

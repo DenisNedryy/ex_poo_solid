@@ -1,7 +1,7 @@
 export class UtilsView {
 
     changeAvatar(name) {
-        const el = document.querySelector(".avatar");
+        const el = document.querySelector(".avatarMenu");
         if (el) {
             
             
