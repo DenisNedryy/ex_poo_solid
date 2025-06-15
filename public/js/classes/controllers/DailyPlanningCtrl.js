@@ -1,25 +1,25 @@
 export class DailyPlanningCtrl {
 
-    constructor(view, seoManager, dailyPlanningEventBinder) {
+    constructor(view, seoManager, eventBinder) {
         this.view = view;
         this.seoManager = seoManager;
-        this.dailyPlanningEventBinder = dailyPlanningEventBinder;
+        this.eventBinder = eventBinder;
     }
 
     init() {
-        this.dailyPlanningEventBinder.dailyPlanningModel.init();
+        this.eventBinder.dailyPlanningModel.init();
     }
 
     verifyIfPlanningModelStarted() {
-        if (this.dailyPlanningEventBinder.dailyPlanningModel.planning.length === 0) {
+        if (this.eventBinder.dailyPlanningModel.planning.length === 0) {
             this.init();
         }
     }
 
     show() {
         this.verifyIfPlanningModelStarted();
-        this.view.render(this.dailyPlanningEventBinder.dailyPlanningModel.planning);
+        this.view.render(this.eventBinder.dailyPlanningModel.planning);
         this.seoManager.setTitle('Ecorcerie Gestionnaire - Planning du soir');
-        this.dailyPlanningEventBinder.addEventListeners();
+        this.eventBinder.addEventListeners();
     }
 }

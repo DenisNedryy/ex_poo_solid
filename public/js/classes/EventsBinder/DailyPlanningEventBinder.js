@@ -13,7 +13,6 @@ export class DailyPlanningEventBinder {
     }
 
     handleClickTask(e) {
-        console.log(e.target);
         if (e.target.classList.contains("tache__isDone") || e.target.classList.contains("fa-solid") || e.target.classList.contains("check")) {
 
             const task = e.target.closest(".tache__isDone");

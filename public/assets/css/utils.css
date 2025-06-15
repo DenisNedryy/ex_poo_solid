@@ -10,7 +10,8 @@
 
 .home,
 .restaurants,
-.dailyPlanning {
+.dailyPlanning,
+.connexion {
     display: flex;
     flex-direction: column;
     border-left: 12px solid rgb(77, 82, 95);
@@ -43,10 +44,28 @@
     font-size: 12px;
 }
 
-.bg_green{
-    background-color:green;
+.bg_green {
+    background-color: green;
 }
 
-.rayé{
-    text-decoration:line-through;
+.rayé {
+    text-decoration: line-through;
+}
+
+.purple_bg {
+background-image: linear-gradient(to bottom, #850ee6 0%, #9327ea 50%, #9e63df 100%);
+
+}
+
+.pink_bg {
+background-image: linear-gradient(to bottom, #c50f86 0%, #e929a5 50%, #bc4889 100%);
+}
+
+.red_bg {
+background-image: linear-gradient(to bottom, #c00e18 0%, #bf1d27 50%, #c43f46 100%);
+
+}
+
+.blue_bg {
+   background-image: linear-gradient(to bottom, #0d74e5 0%, #4f86c4 50%, #526474 100%);
 }
