@@ -1,5 +1,6 @@
 export const tachesSoir = [
   { name: "mails", isDone: true },
+  { name: "Réservation planning", isDone: false },
   { name: "Accueil clients", isDone: false },
   { name: "Faire signer registre aux étrangers", isDone: false },
   { name: "Encaissement clients si plus de 6", isDone: false },
@@ -14,6 +15,6 @@ export const tachesSoir = [
   { name: "Faire les tickets stators", isDone: false },
   { name: "x + z de caisse", isDone: false },
   { name: "Fermer les volets", isDone: false },
-    { name: "Fermer la chapelle", isDone: false },
+  { name: "Fermer la chapelle", isDone: false },
   { name: "Appeler le boulanger: 06.35.17.51.85", isDone: false }
 ];

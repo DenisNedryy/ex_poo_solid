@@ -114,3 +114,8 @@
 .resto-close {
     filter: brightness(.3);
 }
+
+.fade-in {
+
+    animation: fadeIn 0.4s ease forwards
+}

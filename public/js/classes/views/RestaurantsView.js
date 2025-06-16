@@ -54,33 +54,80 @@ export class RestaurantsView {
         const classedRestaurants = this.displayAvailableRestaurantsInPriority(this.restaurants)
         const el = document.getElementById('root');
         if (el) {
+            el.innerHTML = "";
 
-            let sum = `
-            <div class="restaurants"> 
-               <div class="restaurants__header bg_head">
-                    <h2>Restaurants</h2>
-                </div>
-                <div class="restaurants__content bg_main">
-            `;
+            const restaurantsContainer = document.createElement("div");
+            restaurantsContainer.className = "restaurants";
+
+            // header
+            const restaurantHeader = document.createElement("div");
+            restaurantHeader.className = "restaurants__header bg_head";
+
+            const titre = document.createElement("h2");
+            titre.textContent = "Restaurants";
+
+            restaurantHeader.appendChild(titre);
+            restaurantsContainer.appendChild(restaurantHeader);
+
+            // content
+            const restaurantContent = document.createElement("div");
+            restaurantContent.className = "restaurants__content bg_main";
+
+            let cpt = 0;
             classedRestaurants.forEach((resto) => {
-                sum += `
-                <div class="restaurants__fiche ${resto.isOpenned ? '' : 'resto-close'}">
-                   <img src="/public/assets/pictures/restaurants/${resto.img_url}" />
-                   <div class="restaurants__fiche__text">
-                   <div class="restaurants__fiche--name">
-                        <div class="${resto.isOpenned ? "ball green" : "ball red"}"></div>
-                         <p class="restaurants__fiche__name--titre">${resto.name}</p>
-                   </div>
-                    <p class="restaurants__fiche__name--horaires">${resto.horaires ? resto.horaires : "fermé"}</p>
-                    <div class="restaurants__fiche__name--jour"><p>${this.jour}</p></div>
-                    <p>${this.getPhoneFormat(resto.phone)}</p>
-                    </div>
-                </div>
-`
-            });
-            sum += `</div></div>`;
-            el.innerHTML = sum;
+                const fiche = document.createElement("div");
+                fiche.className = `restaurants__fiche ${resto.isOpenned ? 'fade-in' : 'resto-close fade-in'}`;
 
+                const img = document.createElement("img");
+                img.src = `/public/assets/pictures/restaurants/${resto.img_url}`;
+                fiche.appendChild(img);
+
+                const text = document.createElement("div");
+                text.className = "restaurants__fiche__text";
+
+                const name = document.createElement("div");
+                name.className = "restaurants__fiche--name";
+
+                const isOpen = document.createElement("div");
+                isOpen.className = `${resto.isOpenned ? "ball green" : "ball red"}`;
+
+                const titre = document.createElement("p");
+                titre.className = "restaurants__fiche__name--titre";
+                titre.textContent = resto.name;
+
+                name.appendChild(isOpen);
+                name.appendChild(titre);
+                text.appendChild(name);
+
+                const horaires = document.createElement("p");
+                horaires.className = "restaurants__fiche__name--horaires";
+                horaires.textContent = resto.horaires ? resto.horaires : "fermé";
+                text.appendChild(horaires);
+
+                const jour = document.createElement("div");
+                jour.className = "restaurants__fiche__name--jour";
+                const jourPara = document.createElement("p");
+                jourPara.textContent = this.jour;
+                jour.appendChild(jourPara);
+                text.appendChild(jour);
+
+                const phone = document.createElement("p");
+                phone.textContent = this.getPhoneFormat(resto.phone);
+                text.appendChild(phone);
+
+                fiche.appendChild(text);
+
+                setTimeout(() => {
+                    restaurantContent.appendChild(fiche);
+                }, cpt);
+
+                cpt += 100;
+
+            });
+
+
+            restaurantsContainer.appendChild(restaurantContent);
+            el.appendChild(restaurantsContainer);
         }
     }
 

@@ -1,7 +1,6 @@
 .dailyPlanning__content{
     padding: 15px;
     display:flex;
-    justify-content:center;
 }
 
 .tache {
@@ -53,4 +52,8 @@
     animation-duration:.4s;
     animation-fill-mode: forwards;
    
+}
+
+.dailyPlanning__content__fiches{
+    display:flex;
 }
