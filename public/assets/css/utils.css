@@ -74,3 +74,11 @@
 .blue_bg {
     background-image: linear-gradient(to bottom, #0d74e5 0%, #4f86c4 50%, #526474 100%);
 }
+
+.btn-add {
+    background-color: rgb(36, 50, 49);
+    border: 1px solid rgb(91,192,110);
+    color:rgb(176,242,208);
+    padding: 9px;
+    cursor:pointer;
+}

@@ -1,6 +1,6 @@
 .restaurants__content {
     display: flex;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
 }
 
 .restaurants__fiche {
@@ -14,9 +14,13 @@
     height: fit-content;
 }
 
-.restaurants__fiche__text{
-    display:flex;
-    flex-direction:column;
+.restaurants__fiche:hover {
+    filter: brightness(1);
+}
+
+.restaurants__fiche__text {
+    display: flex;
+    flex-direction: column;
     margin-left: 60px;
 }
 
@@ -51,23 +55,26 @@
 .ball {
     width: 30px;
     height: 30px;
-    border-radius: 50%;
     position: absolute;
-    top: -3px;
-    border: 5px double white;
-    left: -44px;
+    top: -30px;
+    border: 1px solid white;
+    left: -81px;
+    border-radius: 3px;
 }
 
 .red {
-    background-color: red;
+    background-color: #ff000052;
 }
 
 .green {
-    background-color: green;
+    background-color: #005c00b8;
     animation-name: move;
     animation-duration: 2s;
     animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
+}
+
+.restaurants__fiche__name--horaires {
+    margin: 3px 0px;
 }
 
 .restaurants__fiche__name--titre {
@@ -102,4 +109,8 @@
 .restaurants__fiche:hover .restaurants__fiche__name--phone {
     display: flex;
     cursor: pointer;
+}
+
+.resto-close {
+    filter: brightness(.3);
 }
