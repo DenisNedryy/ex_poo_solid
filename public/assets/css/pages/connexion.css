@@ -23,10 +23,10 @@
     object-fit: cover;
     margin: 30px;
     cursor: pointer;
-     filter:brightness(0.7);
 }
-.avatarsContainer img:hover{
-    filter:brightness(1.2);
+
+.avatarsContainer img:hover {
+    filter: brightness(1.2);
 }
 
 .connexion__content__logo {
