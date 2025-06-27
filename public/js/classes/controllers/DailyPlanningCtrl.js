@@ -12,7 +12,7 @@ export class DailyPlanningCtrl {
 
     verifyIfPlanningModelStarted() {
         if (this.eventBinder.dailyPlanningModel.planning.length === 0) {
-            this.init();
+            this.init(); 
         }
     }
 

@@ -9,7 +9,7 @@ export class HomeView {
                     <h2>Accueil</h2>
                 </div>
                 <div class="home__content bg_main"> 
-                sdfsdf sdsf
+                <div id="agenda">
                     <img src="/public/assets/pictures/logos/logo_white.png"/>
                 </div>
             </div>

@@ -20,10 +20,12 @@ import { CoursesView } from "./classes/views/CoursesView.js";
 import { EventsView } from "./classes/views/EventsView.js";
 import { ProjectsView } from "./classes/views/ProjectsView.js";
 import { RdvsView } from "./classes/views/RdvsView.js";
+import { AgendaView } from "./classes/views/AgendaView.js";
 
 // eventBinders
 import { DailyPlanningEventBinder } from "./classes/EventsBinder/DailyPlanningEventBinder.js";
 import { ConnexionEventBinder } from "./classes/EventsBinder/ConnexionEventBinder.js";
+import { HomeEventBinder } from "./classes/EventsBinder/HomeEventBinder.js";
 
 // core
 import { NavHighLighter } from "./classes/core/NavHighLighter.js";
@@ -33,6 +35,7 @@ import { SEOManager } from "./classes/core/SEOManager.js";
 
 // models
 import { DailyPlanningModel } from "./classes/models/dailyPlanningModel.js";
+import { Agenda_model } from "./classes/models/AgendaModel.js";
 
 const seoManager = new SEOManager();
 
@@ -46,14 +49,17 @@ const coursesView = new CoursesView();
 const eventsView = new EventsView();
 const projectsView = new ProjectsView();
 const rdvsView = new RdvsView();
+const agendaView = new AgendaView();
 
 const dailyPlanningModel = new DailyPlanningModel();
+const agendaModel = new Agenda_model();
 
 const dailyPlanningEventBinder = new DailyPlanningEventBinder(dailyPlanningModel, dailyPlanningView);
 const connexionEventBinder = new ConnexionEventBinder(connexionView, utilsView);
+const homeEventBinder = new HomeEventBinder(agendaModel, homeView, agendaView);
 
 const dailyPlanningCtrl = new DailyPlanningCtrl(dailyPlanningView, seoManager, dailyPlanningEventBinder);
-const homeCtrl = new HomeCtrl(homeView, seoManager);
+const homeCtrl = new HomeCtrl(homeView, agendaView, agendaModel, seoManager, homeEventBinder);
 const restaurantsctrl = new RestaurantsCtrl(restaurantsView, seoManager);
 const connexionCtrl = new ConnexionCtrl(connexionView, seoManager, connexionEventBinder);
 const tasksCtrl = new TasksCtrl(tasksView, seoManager);

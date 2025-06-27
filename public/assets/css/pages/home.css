@@ -10,3 +10,72 @@
     align-items: center;
 }
 
+/* Agenda  */
+/* AGENDA YEAR */
+
+.agendaWeek__console {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    margin: 19px 0px;
+}
+
+.agendaWeek__console p:first-child {
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 22px;
+}
+.agendaWeek__console i{
+    margin: 0px 5px;
+    padding: 10px;
+    border-radius: 50%;
+    cursor:pointer;
+}
+.agendaWeek__console i:hover{
+    background-color:grey;
+
+}
+.agendaYear {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.agendaYear__monthBox {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    border: 1px solid black;
+    margin: 0px 73px 15px 0px;
+    width: 300px;
+    padding: 25px;
+}
+
+.agendaYear__monthBox table {}
+
+.agendaYear__monthBox table th {
+    padding: 5px;
+}
+
+.agendaYear__monthBox table td {
+    padding: 5px;
+}
+
+/* AGENDA WEEK */
+.agendaWeek {
+    display: flex;
+    flex-direction: column;
+}
+
+.agendaWeek__box {
+    display: flex;
+}
+
+.dayFiche {
+    margin: 15px;
+    border: 1px solid black;
+}
+
+.dayFiche ul {
+    list-style-type: none;
+}
