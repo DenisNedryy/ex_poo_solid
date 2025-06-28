@@ -6,18 +6,20 @@
 
 .home__content {
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
 /* Agenda  */
 /* AGENDA YEAR */
+#agenda {
+    padding: 21px;
+}
 
 .agendaWeek__console {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 400px;
+    width: 339px;
     margin: 19px 0px;
 }
 
@@ -48,9 +50,8 @@
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    border: 1px solid black;
     margin: 0px 73px 15px 0px;
-    width: 300px;
+    width: 234px;
     padding: 25px;
 }
 
@@ -64,11 +65,41 @@
     padding: 5px;
 }
 
+.yearCurrentDay {
+    background-color: green !important;
+    border-radius: 50%;
+}
+
+.numero {
+    padding: 5px;
+}
+
+.numero:hover {
+    background-color: grey;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
 /* AGENDA WEEK */
+.weekCurrentDay {
+    background-color: green!important;
+    border-radius: 50%;
+}
+
+.dayFiche__header__para {
+    width: fit-content;
+    padding: 6px;
+    margin: 5px 0px;
+}
+.dayFiche__header__para:hover{
+    background-color:grey;
+    border-radius:50%;
+    cursor:pointer;
+}
+
 .agendaWeek {
     display: flex;
     flex-direction: column;
-
 }
 
 .agendaWeek__box {
@@ -77,15 +108,34 @@
 
 .dayFiche {
     margin: 15px;
-    border: 1px solid black;
-    width: 200px;
+    width: 135px;
+    padding: 5px;
+}
+
+.dayFiche__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dayFiche__body {
+    border-top: 1px solid white;
+    margin: 5px 0px;
+    padding: 5px;
+
 }
 
 .dayFiche ul {
     list-style-type: none;
 }
 
-.agendaWeek__console__today {
+.dayFiche ul li {
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    padding: 5px;
+}
+
+.agendaWeek__console__today,
+.agendYear__console__today {
     cursor: pointer;
 }
 
@@ -129,6 +179,6 @@
     cursor: pointer;
 }
 
-.viewMode ul li:hover{
+.viewMode ul li:hover {
     background-color: blueviolet;
 }

@@ -3,6 +3,7 @@ import { tasks } from "../../data/tasks.js";
 export class Agenda_model {
     constructor() {
         this.stateDateMs = null;
+        this.stateYear = null;
     }
 
     getDaysInFebruary(year = this.year) {
@@ -16,6 +17,16 @@ export class Agenda_model {
 
     getCurrentDayLetterNum(num) {
         return num === 0 ? 6 : num - 1;
+    }
+
+    agendaYearTurnLeft() {
+        this.stateYear--;
+        return this.stateYear;
+    }
+
+    agendaYearTurnRight() {
+        this.stateYear++;
+        return this.stateYear;
     }
 
     agendaWeekTurnLeft() {
@@ -52,6 +63,12 @@ export class Agenda_model {
         const lundiMs = dateSelectedMs - ((60 * 60 * 24 * 1000) * (currentDayLetterNum === 0 ? 7 : currentDayLetterNum));
         const weekDayTasks = [];
 
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+        const currentDay = currentDate.getDate();
+
+
         for (let i = 0; i < 7; i++) {
             const dayDateMs = lundiMs + ((60 * 60 * 24 * 1000) * i);
             const dayDate = new Date(dayDateMs);
@@ -61,7 +78,14 @@ export class Agenda_model {
             const dayDateNum = new Date(dayDate).getDate();
 
             const tasksByDay = [];
+
             const weekDays = { year: dayYear, month: dayMonth, dayDateNum: dayDateNum };
+            if (currentYear === dayYear && currentMonth === dayMonth && currentDay === dayDateNum) {
+                weekDays.isCurrentDay = true;
+            } else {
+                weekDays.isCurrentDay = false;
+            }
+            console.log(weekDays);
 
             for (let j = 0; j < tasks.length; j++) {
                 const taskDateArray = tasks[j].date.split('-').map(Number);
@@ -87,12 +111,17 @@ export class Agenda_model {
         const date = `${currentDate.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getDate())}`;
         this.stateDateMs = currentDate;
 
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+        const currentDay = currentDate.getDate();
+
         return daysPerMonths.map((myMonth, index) => {
             return {
                 year: year,
                 month: index + 1,
                 days: Array.from({ length: myMonth }, (_, i) => i + 1).map((day) => {
                     return {
+                      isCurrentDay: (year===currentYear && index + 1 === currentMonth && day === currentDay) ? true : false,
                         day: day,
                         task: this.checkIfTask(tasks, year, index + 1, day) || null
                     };
@@ -114,11 +143,13 @@ export class Agenda_model {
     }
 
     init() {
+
         const year = new Date().getFullYear();
         const daysPerMonths = [31, this.getDaysInFebruary(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         const currentDate = new Date();
         const date = `${currentDate.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getDate())}`;
         this.stateDateMs = currentDate.getTime();
+        this.stateYear = new Date().getFullYear();
         return this.getAgendaPerWeek(date);
     }
 }

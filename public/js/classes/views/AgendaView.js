@@ -2,7 +2,7 @@ import { tasks } from "../../data/tasks.js";
 
 export class AgendaView {
     constructor() {
-        this.modeView = "week";
+        this.modeView = "Semaine";
         this.yearMonth = [
             "Janvier",
             "Février",
@@ -40,7 +40,7 @@ export class AgendaView {
     }
 
     renderWeekView(data, el) {
-        this.modeView = "week";
+        this.modeView = "Semaine";
         console.log(data);
         const agendaEl = document.createElement("div");
         agendaEl.className = "agendaWeek";
@@ -67,23 +67,23 @@ export class AgendaView {
         agendaWeekConsole.appendChild(directions);
 
         const dateText = document.createElement("p");
-        dateText.textContent = `${this.getFormatForNumbersWidhtZeroBefore(Number(dateDate))} ${this.getFormatForNumbersWidhtZeroBefore(Number(month))} ${year}`;
+        dateText.textContent = `${this.yearMonth[Number(month - 1)]} ${year}`;
         agendaWeekConsole.appendChild(dateText);
 
         const viewMode = document.createElement("div");
-        viewMode.className="viewMode";
+        viewMode.className = "viewMode";
         const viewModePara = document.createElement("p");
-        viewModePara.className="viewModePara";
+        viewModePara.className = "viewModePara";
         viewModePara.textContent = this.modeView;
         viewMode.appendChild(viewModePara);
-        
+
         const modList = document.createElement("ul");
         const weekView = document.createElement("li");
-        weekView.className="weekViewLi"
+        weekView.className = "weekViewLi"
         weekView.textContent = "Semaine";
         modList.appendChild(weekView);
         const yearView = document.createElement("li");
-        yearView.className="yearViewLi";
+        yearView.className = "yearViewLi";
         yearView.textContent = "Année";
         modList.appendChild(yearView);
 
@@ -99,9 +99,18 @@ export class AgendaView {
         for (let i = 0; i < weekDays.length; i++) {
             const dayFiche = document.createElement("div");
             dayFiche.className = 'dayFiche';
+            // weekDays[i].isCurrentDay? 
             const dayFiche__header = document.createElement("div");
             dayFiche__header.className = "dayFiche__header";
-            dayFiche__header.textContent = `${this.daysLetters[i]} ${weekDays[i].weekDays.dayDateNum}`;
+            const day = document.createElement("p");
+            day.textContent = `${this.daysLetters[i]}`;
+            const num = document.createElement("p");
+            console.log(weekDays[i])
+            num.className = weekDays[i].weekDays.isCurrentDay ? "dayFiche__header__para weekCurrentDay" : "dayFiche__header__para";
+            num.textContent = weekDays[i].weekDays.dayDateNum;
+            dayFiche__header.appendChild(day);
+            dayFiche__header.appendChild(num);
+
             dayFiche.appendChild(dayFiche__header);
             const tasksEl = document.createElement("div");
             tasksEl.className = "dayFiche__body";
@@ -124,7 +133,50 @@ export class AgendaView {
     }
 
     renderYearView(data, el) {
-        this.modeView = "year";
+        this.modeView = "Année";
+
+        const agendaYearConsole = document.createElement("div");
+        agendaYearConsole.className = "agendaWeek__console";
+        const today = document.createElement("p");
+        today.className = "agendYear__console__today";
+        today.textContent = "Today";
+        agendaYearConsole.appendChild(today);
+
+        const directions = document.createElement("div");
+        directions.className = "agendaWeek__console__directions";
+        const iLeft = document.createElement("i");
+        iLeft.className = "fa-solid fa-angle-left agendaYearTurnLeft";
+        const iRight = document.createElement("i");
+        iRight.className = "fa-solid fa-angle-right agendaYearTurnRight";
+        directions.appendChild(iLeft);
+        directions.appendChild(iRight);
+        agendaYearConsole.appendChild(directions);
+
+        const dateText = document.createElement("p");
+        dateText.textContent = data[0].year;
+        agendaYearConsole.appendChild(dateText);
+
+        const viewMode = document.createElement("div");
+        viewMode.className = "viewMode";
+        const viewModePara = document.createElement("p");
+        viewModePara.className = "viewModePara";
+        viewModePara.textContent = this.modeView;
+        viewMode.appendChild(viewModePara);
+
+        const modList = document.createElement("ul");
+        const weekView = document.createElement("li");
+        weekView.className = "weekViewLi"
+        weekView.textContent = "Semaine";
+        modList.appendChild(weekView);
+        const yearView = document.createElement("li");
+        yearView.className = "yearViewLi";
+        yearView.textContent = "Année";
+        modList.appendChild(yearView);
+
+        viewMode.appendChild(modList);
+        agendaYearConsole.appendChild(viewMode);
+        el.appendChild(agendaYearConsole);
+
         const agendaEl = document.createElement("div");
         agendaEl.className = "agendaYear";
         console.log(data);
@@ -201,6 +253,10 @@ export class AgendaView {
             for (let day = 1; day <= totalDays; day++) {
                 const cell = document.createElement('td');
                 cell.textContent = day;
+                console.log(cell);
+                const today = new Date();
+                const isToday = today.getFullYear() === year && today.getMonth() === monthIndex && today.getDate() === day;
+                cell.className = isToday ? 'numero yearCurrentDay' : 'numero';
                 cell.setAttribute('data-date', `${year}-${this.getFormatForNumbersWidhtZeroBefore(monthIndex)}-${this.getFormatForNumbersWidhtZeroBefore(day)}`);
                 weekRow.appendChild(cell);
 

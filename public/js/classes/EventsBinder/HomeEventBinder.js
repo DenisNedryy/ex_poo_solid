@@ -29,6 +29,17 @@ export class HomeEventBinder {
         } else if (e.target.classList.contains("weekViewLi")) {
             const calendarData = this.agendaModel.getAgendaPerWeek();
             this.agendaView.renderCalendarWeek(calendarData);
+        } else if (e.target.classList.contains("agendaYearTurnLeft")) {
+            const year = this.agendaModel.agendaYearTurnLeft();
+            const calendarData = this.agendaModel.getAgendaPerYear(year);
+            this.agendaView.renderCalendarYear(calendarData);
+        } else if (e.target.classList.contains("agendaYearTurnRight")) {
+            const year = this.agendaModel.agendaYearTurnRight();
+            const calendarData = this.agendaModel.getAgendaPerYear(year);
+            this.agendaView.renderCalendarYear(calendarData);
+        } else if (e.target.classList.contains("agendYear__console__today")) {
+            const calendarData = this.agendaModel.getAgendaPerYear();
+            this.agendaView.renderCalendarYear(calendarData);
         }
     }
 }
