@@ -19,20 +19,21 @@ export class Agenda_model {
     }
 
     agendaWeekTurnLeft() {
-
         this.stateDateMs = this.stateDateMs - (60 * 60 * 24 * 7 * 1000);
         const date = new Date(this.stateDateMs);
         const year = date.getFullYear();
-        const month = this.getFormatForNumbersWidhtZeroBefore(date.getMonth() + 1);
+        const month = this.getFormatForNumbersWidhtZeroBefore(date.getMonth());
         const day = this.getFormatForNumbersWidhtZeroBefore(date.getDate());
         return `${year}-${month}-${day}`;
     }
 
     agendaWeekTurnRight() {
+        console.log(new Date(this.stateDateMs));
         this.stateDateMs = this.stateDateMs + (60 * 60 * 24 * 7 * 1000);
+        console.log(new Date(this.stateDateMs));
         const date = new Date(this.stateDateMs);
         const year = date.getFullYear();
-        const month = this.getFormatForNumbersWidhtZeroBefore(date.getMonth() + 1);
+        const month = this.getFormatForNumbersWidhtZeroBefore(date.getMonth());
         const day = this.getFormatForNumbersWidhtZeroBefore(date.getDate());
         return `${year}-${month}-${day}`;
     }

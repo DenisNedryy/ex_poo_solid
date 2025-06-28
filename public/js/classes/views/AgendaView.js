@@ -2,6 +2,7 @@ import { tasks } from "../../data/tasks.js";
 
 export class AgendaView {
     constructor() {
+        this.modeView = "week";
         this.yearMonth = [
             "Janvier",
             "Février",
@@ -39,6 +40,7 @@ export class AgendaView {
     }
 
     renderWeekView(data, el) {
+        this.modeView = "week";
         console.log(data);
         const agendaEl = document.createElement("div");
         agendaEl.className = "agendaWeek";
@@ -46,7 +48,6 @@ export class AgendaView {
         const year = dateSelected.year;
         const month = dateSelected.month;
         const dateDate = dateSelected.dateDate;
-
 
         const agendaWeekConsole = document.createElement("div");
         agendaWeekConsole.className = "agendaWeek__console";
@@ -69,7 +70,27 @@ export class AgendaView {
         dateText.textContent = `${this.getFormatForNumbersWidhtZeroBefore(Number(dateDate))} ${this.getFormatForNumbersWidhtZeroBefore(Number(month))} ${year}`;
         agendaWeekConsole.appendChild(dateText);
 
+        const viewMode = document.createElement("div");
+        viewMode.className="viewMode";
+        const viewModePara = document.createElement("p");
+        viewModePara.className="viewModePara";
+        viewModePara.textContent = this.modeView;
+        viewMode.appendChild(viewModePara);
+        
+        const modList = document.createElement("ul");
+        const weekView = document.createElement("li");
+        weekView.className="weekViewLi"
+        weekView.textContent = "Semaine";
+        modList.appendChild(weekView);
+        const yearView = document.createElement("li");
+        yearView.className="yearViewLi";
+        yearView.textContent = "Année";
+        modList.appendChild(yearView);
+
+        viewMode.appendChild(modList);
+        agendaWeekConsole.appendChild(viewMode);
         agendaEl.appendChild(agendaWeekConsole);
+
 
         const agendaWeekBox = document.createElement("div");
         agendaWeekBox.className = "agendaWeek__box";
@@ -103,6 +124,7 @@ export class AgendaView {
     }
 
     renderYearView(data, el) {
+        this.modeView = "year";
         const agendaEl = document.createElement("div");
         agendaEl.className = "agendaYear";
         console.log(data);

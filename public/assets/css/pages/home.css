@@ -17,7 +17,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 250px;
+    width: 400px;
     margin: 19px 0px;
 }
 
@@ -26,16 +26,19 @@
     padding: 10px;
     border-radius: 22px;
 }
-.agendaWeek__console i{
+
+.agendaWeek__console i {
     margin: 0px 5px;
     padding: 10px;
     border-radius: 50%;
-    cursor:pointer;
+    cursor: pointer;
 }
-.agendaWeek__console i:hover{
-    background-color:grey;
+
+.agendaWeek__console i:hover {
+    background-color: grey;
 
 }
+
 .agendaYear {
     display: flex;
     flex-wrap: wrap;
@@ -65,6 +68,7 @@
 .agendaWeek {
     display: flex;
     flex-direction: column;
+
 }
 
 .agendaWeek__box {
@@ -74,8 +78,57 @@
 .dayFiche {
     margin: 15px;
     border: 1px solid black;
+    width: 200px;
 }
 
 .dayFiche ul {
     list-style-type: none;
+}
+
+.agendaWeek__console__today {
+    cursor: pointer;
+}
+
+.viewMode {
+    position: relative;
+}
+
+.viewModePara {
+    cursor: pointer;
+}
+
+.viewMode ul {
+    position: absolute;
+    top: 100%;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgb(77, 82, 95);
+    background-color: rgb(33, 34, 44);
+    padding: 3px;
+    list-style-type: none;
+
+
+
+}
+
+.viewMode:hover ul {
+    opacity: 1;
+    transform: translateY(0px);
+    pointer-events: auto;
+}
+
+.viewMode ul li {
+    padding: 9px;
+    margin: 2px 0px;
+    cursor: pointer;
+}
+
+.viewMode ul li:hover{
+    background-color: blueviolet;
 }

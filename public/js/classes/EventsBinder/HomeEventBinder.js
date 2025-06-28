@@ -20,6 +20,15 @@ export class HomeEventBinder {
             const dateYYYYMMDD = this.agendaModel.agendaWeekTurnRight();
             const calendarData = this.agendaModel.getAgendaPerWeek(dateYYYYMMDD);
             this.agendaView.renderCalendarWeek(calendarData);
+        } else if (e.target.classList.contains("agendaWeek__console__today")) {
+            const calendarData = this.agendaModel.getAgendaPerWeek();
+            this.agendaView.renderCalendarWeek(calendarData);
+        } else if (e.target.classList.contains("yearViewLi")) {
+            const calendarData = this.agendaModel.getAgendaPerYear();
+            this.agendaView.renderCalendarYear(calendarData);
+        } else if (e.target.classList.contains("weekViewLi")) {
+            const calendarData = this.agendaModel.getAgendaPerWeek();
+            this.agendaView.renderCalendarWeek(calendarData);
         }
     }
 }
