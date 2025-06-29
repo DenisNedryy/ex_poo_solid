@@ -26,7 +26,22 @@
 .agendaWeek__console p:first-child {
     border: 1px solid white;
     padding: 10px;
-    border-radius: 22px;
+    background-color: rgb(36, 50, 49);
+    border: 1px solid rgb(91, 192, 110);
+    color: white;
+    transition: .4s;
+}
+
+.agendaWeek__console__today:hover {
+    filter: brightness(.8);
+}
+
+.viewModePara {
+    border-radius: 5px !important;
+}
+
+.viewModePara:hover {
+    filter: brightness(.8);
 }
 
 .agendaWeek__console i {
@@ -66,7 +81,8 @@
 }
 
 .yearCurrentDay {
-    background-color: green !important;
+    background-color: #005C38 !important;
+    font-weight: 600;
     border-radius: 50%;
 }
 
@@ -75,15 +91,21 @@
 }
 
 .numero:hover {
-    background-color: grey;
+    background-color: rgba(255, 255, 255, .2);
     border-radius: 50%;
     cursor: pointer;
 }
 
 /* AGENDA WEEK */
 .weekCurrentDay {
-    background-color: green!important;
+    background-color: #005C38 !important;
+    font-weight: 600;
     border-radius: 50%;
+    color: white;
+}
+
+.weekCurrentDay:hover {
+    filter: brightness(1.2) !important;
 }
 
 .dayFiche__header__para {
@@ -91,10 +113,11 @@
     padding: 6px;
     margin: 5px 0px;
 }
-.dayFiche__header__para:hover{
-    background-color:grey;
-    border-radius:50%;
-    cursor:pointer;
+
+.dayFiche__header__para:hover {
+    background-color: grey;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .agendaWeek {
@@ -107,8 +130,8 @@
 }
 
 .dayFiche {
-    margin: 15px;
-    width: 135px;
+    margin: 5px;
+    width: 186px;
     padding: 5px;
 }
 
@@ -116,10 +139,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgba(0, 0, 0, .2);
+    padding: 5px;
+    border-top: 2px solid #005C38;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.weekCurrentDayHeader {
+    border-top: 2px solid #005C38;
 }
 
 .dayFiche__body {
-    border-top: 1px solid white;
     margin: 5px 0px;
     padding: 5px;
 
@@ -130,13 +161,35 @@
 }
 
 .dayFiche ul li {
-    border-bottom: 1px solid rgba(255, 255, 255, .1);
-    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    background-color: rgba(5, 242, 209, 0.13);
+    margin-top: 4px;
+    padding: 9px;
+    filter: brightness(.6);
+    transition: .4s;
+}
+
+.dayFiche ul li:hover {
+    filter: brightness(1);
+    cursor: pointer;
+}
+
+.currentWeekLi {
+    background-color: #005C38 !important;
+    filter: brightness(1) !important;
+}
+
+.currentWeekLi:hover {
+    filter: brightness(1.2) !important;
 }
 
 .agendaWeek__console__today,
 .agendYear__console__today {
     cursor: pointer;
+}
+
+.agendYear__console__today:hover {
+    filter: brightness(.8);
 }
 
 .viewMode {
@@ -169,8 +222,9 @@
 
 .viewMode:hover ul {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translateY(2px);
     pointer-events: auto;
+    padding: 5px;
 }
 
 .viewMode ul li {

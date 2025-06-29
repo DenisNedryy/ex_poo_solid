@@ -101,7 +101,7 @@ export class AgendaView {
             dayFiche.className = 'dayFiche';
             // weekDays[i].isCurrentDay? 
             const dayFiche__header = document.createElement("div");
-            dayFiche__header.className = "dayFiche__header";
+            dayFiche__header.className = weekDays[i].weekDays.isCurrentDay ? "dayFiche__header weekCurrentDayHeader" : "dayFiche__header";
             const day = document.createElement("p");
             day.textContent = `${this.daysLetters[i]}`;
             const num = document.createElement("p");
@@ -120,6 +120,7 @@ export class AgendaView {
             for (let j = 0; j < weekDays[i].tasksByDay.length; j++) {
                 const li = document.createElement("li");
                 li.textContent = weekDays[i].tasksByDay[j].name;
+                li.className = weekDays[i].weekDays.isCurrentDay ? "currentWeekLi" : "";
                 ul.appendChild(li);
             }
 
