@@ -269,7 +269,4 @@
 .checkFetes {
     position: absolute;
     top: auto;
-    animation-name: sursaut;
-    animation-duration: .4s;
-    animation-fill-mode: forwards;
 }
