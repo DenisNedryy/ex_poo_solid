@@ -6,4 +6,8 @@ export const tasks = [
     { type: "task", name: "lundi ravioli", date: '2025-06-23' },
     { type: "task", name: "lundi encore ravioli", date: '2025-06-23' },
     { type: "task", name: "dimanche une planche", date: '2025-06-29' },
+    { type: "task", name: "dimanche une planche", date: '2025-06-30' },
+    { type: "task", name: "dimanche une planche", date: '2025-06-30' },
+    { type: "task", name: "dimanche une planche", date: '2025-06-30' },
+    { type: "task", name: "dimanche une planche", date: '2025-06-30' },
 ];

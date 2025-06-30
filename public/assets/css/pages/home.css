@@ -127,12 +127,15 @@
 
 .agendaWeek__box {
     display: flex;
+    animation-name: Netflix;
+    animation-duration: .8s;
 }
 
 .dayFiche {
     margin: 5px;
     width: 186px;
-    padding: 5px;
+    background-color: rgba(255, 255, 255, .1);
+    padding: 0px 0px 5px 0px;
 }
 
 .dayFiche__header {
@@ -152,8 +155,7 @@
 
 .dayFiche__body {
     margin: 5px 0px;
-    padding: 5px;
-
+    padding: 5px 5px;
 }
 
 .dayFiche ul {
