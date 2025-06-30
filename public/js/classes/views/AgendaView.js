@@ -41,7 +41,6 @@ export class AgendaView {
 
     renderWeekView(data, el) {
         this.modeView = "Semaine";
-        console.log(data);
         const agendaEl = document.createElement("div");
         agendaEl.className = "agendaWeek";
         const dateSelected = data.dateSelected;
@@ -91,6 +90,24 @@ export class AgendaView {
         agendaWeekConsole.appendChild(viewMode);
         agendaEl.appendChild(agendaWeekConsole);
 
+        const choiceTasks = document.createElement("div");
+        choiceTasks.className = "choiceTasks";
+        const joursFeries = document.createElement("div");
+        const joursFeriesbox = document.createElement("div");
+        joursFeriesbox.className = `${data.weekDays[0].weekDays.isFetes ? 'joursFeries open' : 'joursFeries close'}`;
+        if (data.weekDays[0].weekDays.isFetes) {
+            const check = document.createElement("i");
+            check.className = "fa-solid fa-check checkFetes";
+            joursFeriesbox.appendChild(check);
+        }
+
+        const choiceTasksPara = document.createElement("p");
+        choiceTasksPara.textContent = "jours fériés";
+
+        choiceTasks.appendChild(joursFeries);
+        choiceTasks.appendChild(joursFeriesbox);
+        choiceTasks.appendChild(choiceTasksPara);
+        agendaEl.appendChild(choiceTasks);
 
         const agendaWeekBox = document.createElement("div");
         agendaWeekBox.className = "agendaWeek__box";
@@ -105,7 +122,6 @@ export class AgendaView {
             const day = document.createElement("p");
             day.textContent = `${this.daysLetters[i]}`;
             const num = document.createElement("p");
-            console.log(weekDays[i])
             num.className = weekDays[i].weekDays.isCurrentDay ? "dayFiche__header__para weekCurrentDay" : "dayFiche__header__para";
             num.textContent = weekDays[i].weekDays.dayDateNum;
             dayFiche__header.appendChild(day);
@@ -121,6 +137,12 @@ export class AgendaView {
                 const li = document.createElement("li");
                 li.textContent = weekDays[i].tasksByDay[j].name;
                 li.className = weekDays[i].weekDays.isCurrentDay ? "currentWeekLi" : "";
+                if (weekDays[i].tasksByDay[j].bg) {
+                    li.classList.add(weekDays[i].tasksByDay[j].bg);
+                }
+                if (weekDays[i].tasksByDay[j].color) {
+                    li.classList.add(weekDays[i].tasksByDay[j].color);
+                }
                 ul.appendChild(li);
             }
 
@@ -180,7 +202,6 @@ export class AgendaView {
 
         const agendaEl = document.createElement("div");
         agendaEl.className = "agendaYear";
-        console.log(data);
         const year = data[0].year;
         data.forEach((month, index) => {
             const myMonth = this.yearMonth[index];
@@ -254,7 +275,6 @@ export class AgendaView {
             for (let day = 1; day <= totalDays; day++) {
                 const cell = document.createElement('td');
                 cell.textContent = day;
-                console.log(cell);
                 const today = new Date();
                 const isToday = today.getFullYear() === year && today.getMonth() === monthIndex && today.getDate() === day;
                 cell.className = isToday ? 'numero yearCurrentDay' : 'numero';
@@ -292,7 +312,6 @@ export class AgendaView {
     }
 
     renderCalendarWeek(calendarData) {
-        console.log(calendarData);
         const el = document.querySelector("#agenda");
         if (el) {
             el.innerHTML = "";

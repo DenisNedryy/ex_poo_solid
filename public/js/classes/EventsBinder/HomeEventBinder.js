@@ -40,6 +40,10 @@ export class HomeEventBinder {
         } else if (e.target.classList.contains("agendYear__console__today")) {
             const calendarData = this.agendaModel.getAgendaPerYear();
             this.agendaView.renderCalendarYear(calendarData);
+        } else if (e.target.classList.contains("joursFeries") || e.target.classList.contains("checkFetes")) {
+            this.agendaModel.fetes = !this.agendaModel.fetes;
+            const calendarData = this.agendaModel.getAgendaPerWeek();
+            this.agendaView.renderCalendarWeek(calendarData);
         }
     }
 }

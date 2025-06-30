@@ -215,9 +215,6 @@
     background-color: rgb(33, 34, 44);
     padding: 3px;
     list-style-type: none;
-
-
-
 }
 
 .viewMode:hover ul {
@@ -235,4 +232,44 @@
 
 .viewMode ul li:hover {
     background-color: blueviolet;
+}
+
+.choiceTasks {
+    display: flex;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+.choiceTasks p {
+    margin-left: 15px;
+}
+
+.open {
+    background-color: green;
+    cursor: pointer;
+}
+
+.close {
+    background-color: red;
+    cursor: pointer;
+}
+
+.joursFeries {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    margin-left: 15px;
+    cursor: pointer;
+    position: relative;
+}
+
+.checkFetes {
+    position: absolute;
+    top: auto;
+    animation-name: sursaut;
+    animation-duration: .4s;
+    animation-fill-mode: forwards;
 }

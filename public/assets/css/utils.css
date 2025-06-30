@@ -77,8 +77,28 @@
 
 .btn-add {
     background-color: rgb(36, 50, 49);
-    border: 1px solid rgb(91,192,110);
-    color:rgb(176,242,208);
+    border: 1px solid rgb(91, 192, 110);
+    color: rgb(176, 242, 208);
     padding: 9px;
-    cursor:pointer;
+    cursor: pointer;
+}
+
+.bgJaune {
+    background-color: #ffd017 !important;
+}
+
+.bgBlack {
+    background-color: black !important;
+}
+
+.bgRed {
+    background-color: red!important;
+}
+
+.colorWhite {
+    color: white !important;
+}
+
+.colorBlack {
+    color: black !important;
 }
