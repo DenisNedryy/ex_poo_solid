@@ -7,6 +7,7 @@ export class AuthView {
 
     render() {
         const el = document.getElementById("root");
+        el.innerHTML = "";
         if (el) {
             const page = document.createElement("div");
             page.className = "auth";
@@ -18,7 +19,6 @@ export class AuthView {
             logo.src = "/public/assets/pictures/logos/logo_white.png";
             header.appendChild(logo);
 
-
             // div form
             const formContainer = document.createElement("div");
             formContainer.className = "auth__body";
@@ -26,17 +26,25 @@ export class AuthView {
             formContainer.appendChild(switchAuth);
 
             // footer
-            const footer = document.createElement("p");
+            const footer = document.createElement("div");
             footer.className = "auth__footer";
-            footer.textContent = `${this.isConnection ? "Besoin d'un compte?" : "Se connecter directement"} ${this.isConnection ? "Inscrit toi !" : "Connecte toi !"}`;
+            const para1 = document.createElement("p");
+            para1.textContent = `${this.isConnection ? "Besoin d'un compte?" : "Se connecter directement"}`;
 
+            const para2 = document.createElement("p");
+            para2.className = "switchAuth";
+            para2.textContent = `${this.isConnection ? "Inscrit toi !" : "Connecte toi !"}`;
+            footer.appendChild(para1);
+            footer.appendChild(para2);
+
+            formContainer.appendChild(footer);
             page.appendChild(header);
             page.appendChild(formContainer);
-            page.appendChild(footer);
             el.appendChild(page);
 
             this.isConnection ? this.renderConnection(switchAuth) : this.renderInscription(switchAuth);
         }
+        console.log(this.isConnection);
 
 
     }
@@ -51,7 +59,7 @@ export class AuthView {
 
         const nameContainer = document.createElement("div");
         const nameLabel = document.createElement("label");
-        nameLabel.textContent = "Nom:";
+        nameLabel.textContent = "Nom";
         const nameInput = document.createElement("input");
         nameInput.type = "text";
         nameInput.name = "name";
@@ -60,7 +68,7 @@ export class AuthView {
 
         const passwordContainer = document.createElement("div");
         const passwordLabel = document.createElement("label");
-        passwordLabel.textContent = "Password:";
+        passwordLabel.textContent = "Mot de passe";
         const passwordInput = document.createElement("input");
         passwordInput.name = "password";
         passwordInput.type = "password";
@@ -106,7 +114,7 @@ export class AuthView {
 
         const secretKeyContainer = document.createElement("div");
         const secretKeyLabel = document.createElement("label");
-        passwordLabel.textContent = "Secret key:";
+        secretKeyLabel.textContent = "Secret key:";
         const secretKeyInput = document.createElement("input");
         secretKeyInput.name = "secretKey";
         secretKeyInput.type = "password";
@@ -119,6 +127,7 @@ export class AuthView {
 
         form.appendChild(nameContainer);
         form.appendChild(passwordContainer);
+        form.appendChild(secretKeyContainer);
         form.appendChild(btn);
 
         el.appendChild(form);

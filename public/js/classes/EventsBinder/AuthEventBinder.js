@@ -1,19 +1,44 @@
 export class AuthEventBinder {
     constructor(view) {
         this.view = view;
-        this.boundHandleClickTask = this.handleClickTask.bind(this); //Crée une nouvelle fonction dont le contexte (this) est explicitement lié à l’instance actuelle de la classe.
-        // sinon instancie un nouveau
-        // le dernier this fait ref à l'instance de la classe
+        this.boundHandleClickTask = this.handleClickTask.bind(this);
+        this.boundHandleSubmit = this.handleSubmit.bind(this);
     }
 
     addEventListeners() {
         document.removeEventListener('click', this.boundHandleClickTask);
         document.addEventListener('click', this.boundHandleClickTask);
+        document.removeEventListener("submit", this.boundHandleSubmit);
+        document.addEventListener("submit", this.boundHandleSubmit);
     }
 
     handleClickTask(e) {
-        // if (e.target.classList.contains("linkImg") || e.target.classList.contains("avatar")) {
+        if (e.target.classList.contains("switchAuth")) {
+            this.view.isConnection = !this.view.isConnection;
+            this.view.render();
+        }
+    }
 
-        // }
+    handleSubmit(e) {
+        const isConnection = this.view.isConnection;
+        e.preventDefault();
+        const form = document.querySelector("form");
+        if (isConnection) {
+            this.submitConnection(form);
+        } else {
+            this.submitInscription(form);
+        }
+        e.target.reset();
+    }
+
+    submitConnection(form) {
+        const name = form.elements['name'].value;
+        const password = form.elements['password'].value;
+    }
+
+    submitInscription() {
+        const name = form.elements['name'].value;
+        const password = form.elements['password'].value;
+        const secretKey = form.elements['secretKey'].value;
     }
 }

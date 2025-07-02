@@ -1,3 +1,68 @@
 .auth {
     background-color: rgb(31, 33, 39);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth__body form>div {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth__body form>div>input {
+    height: 31px;
+    background-color: rgb(213, 215, 222);
+    border: none;
+    border-radius:3px;
+}
+.auth__body form>div>input:active, .auth__body form>div>input:focus{
+    background-color:white;
+}
+
+.auth__body form>div label {
+    margin: 5px 0px;
+}
+
+.auth h2 {
+    font-size: 45px;
+}
+
+.auth__body button {
+    margin: 15px 0px;
+    background-color: #00ff88;
+    color: #1e1e1e;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3);
+}
+
+.auth__body button:hover {
+    background-color: #00e67a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 255, 136, 0.4);
+}
+
+.auth__body button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(0, 255, 136, 0.2);
+}
+
+.auth__body .switchAuth {
+    color: rgb(118, 218, 255);
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.auth__body .switchAuth:hover {
+    color: white;
+}
+
+.auth__footer {
+    display: flex;
 }
