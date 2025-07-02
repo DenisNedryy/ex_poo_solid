@@ -8,6 +8,7 @@ import { CoursesCtrl } from "./classes/controllers/CoursesCtrl.js";
 import { EventsCtrl } from "./classes/controllers/EventsCtrl.js";
 import { ProjectsCtrl } from "./classes/controllers/ProjectsCtrl.js";
 import { RdvsCtrl } from "./classes/controllers/RdvsCtrl.js";
+import { AuthCtrl } from "./classes/controllers/AuthCtrl.js";
 
 // views
 import { DailyPlanningView } from "./classes/views/DailyPlanningView.js";
@@ -21,11 +22,13 @@ import { EventsView } from "./classes/views/EventsView.js";
 import { ProjectsView } from "./classes/views/ProjectsView.js";
 import { RdvsView } from "./classes/views/RdvsView.js";
 import { AgendaView } from "./classes/views/AgendaView.js";
+import { AuthView } from "./classes/views/AuthView.js";
 
 // eventBinders
 import { DailyPlanningEventBinder } from "./classes/EventsBinder/DailyPlanningEventBinder.js";
 import { ConnexionEventBinder } from "./classes/EventsBinder/ConnexionEventBinder.js";
 import { HomeEventBinder } from "./classes/EventsBinder/HomeEventBinder.js";
+import { AuthEventBinder } from "./classes/EventsBinder/AuthEventBinder.js";
 
 // core
 import { NavHighLighter } from "./classes/core/NavHighLighter.js";
@@ -50,6 +53,7 @@ const eventsView = new EventsView();
 const projectsView = new ProjectsView();
 const rdvsView = new RdvsView();
 const agendaView = new AgendaView();
+const authView = new AuthView();
 
 const dailyPlanningModel = new DailyPlanningModel();
 const agendaModel = new Agenda_model();
@@ -57,6 +61,7 @@ const agendaModel = new Agenda_model();
 const dailyPlanningEventBinder = new DailyPlanningEventBinder(dailyPlanningModel, dailyPlanningView);
 const connexionEventBinder = new ConnexionEventBinder(connexionView, utilsView);
 const homeEventBinder = new HomeEventBinder(agendaModel, homeView, agendaView);
+const authEventBinder = new AuthEventBinder(authView);
 
 const dailyPlanningCtrl = new DailyPlanningCtrl(dailyPlanningView, seoManager, dailyPlanningEventBinder);
 const homeCtrl = new HomeCtrl(homeView, agendaView, agendaModel, seoManager, homeEventBinder);
@@ -67,8 +72,10 @@ const coursesCtrl = new CoursesCtrl(coursesView, seoManager);
 const eventsCtrl = new EventsCtrl(eventsView, seoManager);
 const projectsCtrl = new ProjectsCtrl(projectsView, seoManager);
 const rdvsCtrl = new RdvsCtrl(rdvsView, seoManager);
+const authCtrl = new AuthCtrl(authView, seoManager, authEventBinder);
 
 const routes = {
+    "auth": authCtrl,
     "connexion": connexionCtrl,
     "home": homeCtrl,
     "daily-planning": dailyPlanningCtrl,

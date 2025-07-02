@@ -112,6 +112,11 @@
     width: fit-content;
     padding: 6px;
     margin: 5px 0px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .dayFiche__header__para:hover {
@@ -252,7 +257,6 @@
 }
 
 .close {
-    background-color: red;
     cursor: pointer;
 }
 

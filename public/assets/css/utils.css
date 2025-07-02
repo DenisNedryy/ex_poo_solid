@@ -83,22 +83,23 @@
     cursor: pointer;
 }
 
-.bgJaune {
-    background-color: #ffd017 !important;
+html body .bgJaune {
+    background-color: #8e7f3e !important;
+    color: #fdf6dc;
 }
 
-.bgBlack {
+html body .bgBlack {
     background-color: black !important;
 }
 
-.bgRed {
-    background-color: red!important;
+html body .bgRed {
+    background-color: red !important;
 }
 
-.colorWhite {
+html body .colorWhite {
     color: white !important;
 }
 
-.colorBlack {
+html body .colorBlack {
     color: black !important;
 }

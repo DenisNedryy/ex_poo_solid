@@ -49,7 +49,7 @@ export class NavigationManager {
     }
 
     init() {
-        const initialPage = this.getPageFromURL() || 'connexion';
+        const initialPage = this.getPageFromURL() || 'auth';
         this.navigate(initialPage, false);
     }
 }
