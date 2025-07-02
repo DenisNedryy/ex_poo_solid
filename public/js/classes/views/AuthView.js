@@ -16,11 +16,8 @@ export class AuthView {
             header.className = "auth__header";
             const logo = document.createElement("img");
             logo.src = "/public/assets/pictures/logos/logo_white.png";
-            const title = document.createElement("h2");
-            title.className = "auth__header__title";
-            title.textContent = this.isConnection ? "Connexion" : "Inscription";
             header.appendChild(logo);
-            header.appendChild(title);
+
 
             // div form
             const formContainer = document.createElement("div");
@@ -29,14 +26,13 @@ export class AuthView {
             formContainer.appendChild(switchAuth);
 
             // footer
-            switchAuth.className = "auth__footer";
-            const switchAuthPara = document.createElement("p");
-            switchAuthPara.textContent = `${this.isConnection ? "Besoin d'un compte?" : "Se connecter directement"} ${this.isConnection ? "Inscrit toi !" : "Connecte toi !"}`;
-            switchAuth.appendChild(switchAuthPara);
+            const footer = document.createElement("p");
+            footer.className = "auth__footer";
+            footer.textContent = `${this.isConnection ? "Besoin d'un compte?" : "Se connecter directement"} ${this.isConnection ? "Inscrit toi !" : "Connecte toi !"}`;
 
             page.appendChild(header);
             page.appendChild(formContainer);
-            page.appendChild(switchAuth);
+            page.appendChild(footer);
             el.appendChild(page);
 
             this.isConnection ? this.renderConnection(switchAuth) : this.renderInscription(switchAuth);
@@ -47,6 +43,11 @@ export class AuthView {
 
     renderConnection(el) {
         const form = document.createElement("form");
+
+        const title = document.createElement("h2");
+        title.className = "auth__header__title";
+        title.textContent = this.isConnection ? "Connexion" : "Inscription";
+        form.appendChild(title);
 
         const nameContainer = document.createElement("div");
         const nameLabel = document.createElement("label");
@@ -78,7 +79,49 @@ export class AuthView {
     }
 
     renderInscription(el) {
+        const form = document.createElement("form");
 
+        const title = document.createElement("h2");
+        title.className = "auth__header__title";
+        title.textContent = this.isConnection ? "Connexion" : "Inscription";
+        form.appendChild(title);
+
+        const nameContainer = document.createElement("div");
+        const nameLabel = document.createElement("label");
+        nameLabel.textContent = "Nom:";
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.name = "name";
+        nameContainer.appendChild(nameLabel);
+        nameContainer.appendChild(nameInput);
+
+        const passwordContainer = document.createElement("div");
+        const passwordLabel = document.createElement("label");
+        passwordLabel.textContent = "Password:";
+        const passwordInput = document.createElement("input");
+        passwordInput.name = "password";
+        passwordInput.type = "password";
+        passwordContainer.appendChild(passwordLabel);
+        passwordContainer.appendChild(passwordInput)
+
+        const secretKeyContainer = document.createElement("div");
+        const secretKeyLabel = document.createElement("label");
+        passwordLabel.textContent = "Secret key:";
+        const secretKeyInput = document.createElement("input");
+        secretKeyInput.name = "secretKey";
+        secretKeyInput.type = "password";
+        secretKeyContainer.appendChild(secretKeyLabel);
+        secretKeyContainer.appendChild(secretKeyInput)
+
+        const btn = document.createElement("button");
+        btn.type = "submit";
+        btn.textContent = "Se connecter";
+
+        form.appendChild(nameContainer);
+        form.appendChild(passwordContainer);
+        form.appendChild(btn);
+
+        el.appendChild(form);
     }
 
 } 
