@@ -1,3 +1,5 @@
+import { inscription, connection } from "../../services/Auth.js";
+
 export class AuthEventBinder {
     constructor(view) {
         this.view = view;
@@ -36,9 +38,17 @@ export class AuthEventBinder {
         const password = form.elements['password'].value;
     }
 
-    submitInscription() {
+    async submitInscription(form) {
         const name = form.elements['name'].value;
         const password = form.elements['password'].value;
-        const secretKey = form.elements['secretKey'].value;
+        const magicWord = form.elements['magicWord'].value;
+        const data = {
+            name: name,
+            password: password,
+            magicWord: magicWord
+        }
+        console.log(data);
+        const res = await inscription(data);
+        console.log(res);
     }
 }

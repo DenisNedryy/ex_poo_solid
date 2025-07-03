@@ -6,7 +6,9 @@ const jwt = require("jsonwebtoken");
 const fs = require('fs').promises;
 
 
-exports.signUp = async (req, res, next) => {
+exports.inscription = async (req, res, next) => {
+    console.log("inscription CTRL");
+    console.log(req.body.magicWord);
     try {
         const magicWord = req.body.magicWord;
         if (!magicWord || magicWord !== process.env.MAGIC_WORD) {
@@ -14,13 +16,9 @@ exports.signUp = async (req, res, next) => {
         }
 
         // Vérification des champs
-        if (!req.body.name || !req.body.email || !req.body.password) return res.status(400).json({ msg: "All fields are required" });
+        if (!req.body.name || !req.body.password || !req.body.magicWord) return res.status(400).json({ msg: "All fields are required" });
 
-        // Validation de l'email avec regex
-        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-        if (!emailRegex.test(req.body.email)) {
-            return res.status(400).json({ msg: "Invalid email format" });
-        }
+ 
 
         // Attendre que le hash du mot de passe soit généré
         const hash = await bcrypt.hash(req.body.password, 10);
@@ -28,18 +26,18 @@ exports.signUp = async (req, res, next) => {
         // Créer un nouvel utilisateur
         const user = {
             id: uuidv4(),
-            name: req.body.name, 
+            name: req.body.name,
             password: hash,
             img_url: req.file ? req.file.filename : "default_avatar_profile.png"
         };
 
-        const [existingUser] = await pool.execute('SELECT * FROM users WHERE email = ?', [req.body.email]);
+        const [existingUser] = await pool.execute('SELECT * FROM users WHERE name = ?', [req.body.name]);
         if (existingUser.length > 0) {
-            return res.status(400).json({ msg: "Email is already taken" });
+            return res.status(400).json({ msg: "Name is already taken" });
         }
 
         // Insérer l'utilisateur dans la base de données
-        const [results] = await pool.execute('INSERT INTO users (id, name, email, password, img_url) VALUES (?,?,?,?,?)', [user.id, user.name, user.email, user.password, user.img_url]);
+        const [results] = await pool.execute('INSERT INTO users (id, name, password, img_url) VALUES (?,?,?,?)', [user.id, user.name, user.password, user.img_url]);
 
         // Répondre avec un message de succès
         return res.status(201).json({ msg: "user created", id: results.insertId });
@@ -49,7 +47,7 @@ exports.signUp = async (req, res, next) => {
     }
 };
 
-exports.logIn = async (req, res, next) => {
+exports.connection = async (req, res, next) => {
     const { email, password } = req.body;
     // Vérification des champs
     if (!email || !password) return res.status(400).json({ msg: "All fields are required" });

@@ -1,3 +1,8 @@
+
+// papilles poitiers france
+// l'essentiel
+// le cap
+
 export const liste_restaurants = [
     {
         name: "Logis Auberge le centre - Poitou",

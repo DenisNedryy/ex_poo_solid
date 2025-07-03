@@ -44,9 +44,7 @@ export class AuthView {
 
             this.isConnection ? this.renderConnection(switchAuth) : this.renderInscription(switchAuth);
         }
-        console.log(this.isConnection);
-
-
+      
     }
 
     renderConnection(el) {
@@ -114,16 +112,16 @@ export class AuthView {
 
         const secretKeyContainer = document.createElement("div");
         const secretKeyLabel = document.createElement("label");
-        secretKeyLabel.textContent = "Secret key:";
+        secretKeyLabel.textContent = "Mot magique";
         const secretKeyInput = document.createElement("input");
-        secretKeyInput.name = "secretKey";
-        secretKeyInput.type = "password";
+        secretKeyInput.name = "magicWord";
+        secretKeyInput.type = "text";
         secretKeyContainer.appendChild(secretKeyLabel);
         secretKeyContainer.appendChild(secretKeyInput)
 
         const btn = document.createElement("button");
         btn.type = "submit";
-        btn.textContent = "Se connecter";
+        btn.textContent = "S'inscrire";
 
         form.appendChild(nameContainer);
         form.appendChild(passwordContainer);

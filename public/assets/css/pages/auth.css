@@ -3,6 +3,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+        border-left: 12px solid rgb(77, 82, 95);
+    background-color: rgb(31, 33, 39);
+    min-height: 90vh;
+}
+.auth__header{
+    margin-right: 15px;
+}
+.auth__header img {
+    width: 375px;
 }
 
 .auth__body form>div {
@@ -14,10 +23,12 @@
     height: 31px;
     background-color: rgb(213, 215, 222);
     border: none;
-    border-radius:3px;
+    border-radius: 3px;
 }
-.auth__body form>div>input:active, .auth__body form>div>input:focus{
-    background-color:white;
+
+.auth__body form>div>input:active,
+.auth__body form>div>input:focus {
+    background-color: white;
 }
 
 .auth__body form>div label {

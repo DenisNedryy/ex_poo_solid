@@ -3,8 +3,8 @@ const router = express.Router();
 const ctrl_auth = require("../controllers/users_ctrl");
 const { uploadAvatar } = require("../middlewares/multer-config");
 
-router.post("/signUp", uploadAvatar, ctrl_auth.signUp);
-router.post("/logIn", uploadAvatar, ctrl_auth.logIn);
+router.post("/inscription", uploadAvatar, ctrl_auth.inscription);
+router.post("/connection", uploadAvatar, ctrl_auth.connection);
 
 
 
