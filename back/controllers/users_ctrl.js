@@ -7,8 +7,6 @@ const fs = require('fs').promises;
 
 
 exports.inscription = async (req, res, next) => {
-    console.log("inscription CTRL");
-    console.log(req.body.magicWord);
     try {
         const magicWord = req.body.magicWord;
         if (!magicWord || magicWord !== process.env.MAGIC_WORD) {
@@ -18,7 +16,7 @@ exports.inscription = async (req, res, next) => {
         // Vérification des champs
         if (!req.body.name || !req.body.password || !req.body.magicWord) return res.status(400).json({ msg: "All fields are required" });
 
- 
+
 
         // Attendre que le hash du mot de passe soit généré
         const hash = await bcrypt.hash(req.body.password, 10);
@@ -48,19 +46,15 @@ exports.inscription = async (req, res, next) => {
 };
 
 exports.connection = async (req, res, next) => {
-    const { email, password } = req.body;
+    console.log("connection CTRL");
+    const { name, password } = req.body;
+    console.log(req.body)
     // Vérification des champs
-    if (!email || !password) return res.status(400).json({ msg: "All fields are required" });
-
-    // Vérification du format mail
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    if (!emailRegex.test(email)) {
-        return res.status(400).json({ msg: "Invalid email format" });
-    }
+    if (!name || !password) return res.status(400).json({ msg: "All fields are required" });
 
     // Vérification de l'existance du mail
-    const [user] = await pool.execute('SELECT * FROM users WHERE email=?', [email]);
-    if (!user[0] || !user[0].email) return res.status(400).json({ msg: "Non existant email" });
+    const [user] = await pool.execute('SELECT * FROM users WHERE name=?', [name]);
+    if (!user[0] || !user[0].name) return res.status(400).json({ msg: "Non existant name" });
 
     // Vérification du mdp
     const isPassword = await bcrypt.compare(password, user[0].password);

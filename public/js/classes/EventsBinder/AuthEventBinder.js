@@ -33,9 +33,15 @@ export class AuthEventBinder {
         e.target.reset();
     }
 
-    submitConnection(form) {
+    async submitConnection(form) {
         const name = form.elements['name'].value;
         const password = form.elements['password'].value;
+        const data = {
+            name: name,
+            password: password
+        }
+        const res = await connection(data);
+        console.log(res);
     }
 
     async submitInscription(form) {
@@ -47,7 +53,6 @@ export class AuthEventBinder {
             password: password,
             magicWord: magicWord
         }
-        console.log(data);
         const res = await inscription(data);
         console.log(res);
     }

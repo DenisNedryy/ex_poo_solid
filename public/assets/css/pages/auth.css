@@ -3,15 +3,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-        border-left: 12px solid rgb(77, 82, 95);
+    border-left: 12px solid rgb(77, 82, 95);
     background-color: rgb(31, 33, 39);
     min-height: 90vh;
 }
-.auth__header{
+
+.auth__header {
     margin-right: 15px;
 }
+
 .auth__header img {
     width: 375px;
+}
+
+.auth__body {
+    width: 264px;
 }
 
 .auth__body form>div {
