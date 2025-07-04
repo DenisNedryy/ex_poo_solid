@@ -6,5 +6,7 @@ CREATE TABLE tasks (
     description TEXT,
     date DATE,
     type ENUM('tasks', 'courses', 'rdvs', 'events', 'projets'),
+    owner_id VARCHAR(36),
+    author_id VARCHAR(36),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;

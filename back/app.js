@@ -22,7 +22,7 @@ app.use(cors({
 // })
 
 app.use("/api/auth", userRoutes);
-// app.use("/api/tasks", tasksRoutes);
+app.use("/api/tasks", tasksRoutes);
 
 app.use("/api/images/avatars", express.static(path.join(__dirname, "uploads/pictures/avatars"))); 
 

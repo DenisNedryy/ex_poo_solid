@@ -30,6 +30,7 @@
     background-color: rgb(213, 215, 222);
     border: none;
     border-radius: 3px;
+    padding-left: 15px;
 }
 
 .auth__body form>div>input:active,

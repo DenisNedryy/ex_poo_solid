@@ -30,7 +30,25 @@ exports.readOneTask = async (req, res, next) => {
 };
 
 exports.createTask = async (req, res, next) => {
+    console.log("CTRL createTask");
     try {
+        const { name, description, date, type, author_id } = req.body;
+
+        const data = {
+            id: uuidv4(),
+            user_id: req.auth.userId,
+            name: name || null,
+            description: description || null,
+            date: date || null,
+            type: type || null,
+            author_id: author_id || null
+        }
+
+        const keys = Object.keys(data).filter((key) => data[key] !== null);
+        const values = Object.values((value) => value !== null);
+        const placeholder = keys.map(() => "? ".join(", "));
+
+        await pool.execute(`INSERT INTO tasks (${keys.join(", ")}) VALUES(${placeholder})`, values);
 
     } catch (err) {
         return res.status(500).json({ err });
@@ -39,6 +57,22 @@ exports.createTask = async (req, res, next) => {
 
 exports.updateTask = async (req, res, next) => {
     try {
+        const taskId = req.params.id;
+        const { name, description, type } = req.body;
+
+        const data = {
+            name: name || null,
+            description: description || null,
+            type: type || null,
+        }
+
+        const keys = Object.keys(data).filter((key) => data[key] !== null);
+        const values = Object.values((value) => value !== null);
+        const placeholder = keys.map((key) => `${key} = ?`).join(", ");
+        values.push(taskId);
+
+        await pool.execute(`UPDATE tasks SET ${placeholder} WHERE ID = ?`, values);
+        return res.status(200).json({ msg: "task updated" })
 
     } catch (err) {
         return res.status(500).json({ err });
@@ -47,7 +81,9 @@ exports.updateTask = async (req, res, next) => {
 
 exports.deleteTask = async (req, res, next) => {
     try {
-
+        const taskId = req.params.id;
+        await pool.execute(`DELETE FROM tasks WHERE id = ?`, [taskId]);
+        return res.status(200).json({ msg: "task deleted" });
     } catch (err) {
         return res.status(500).json({ err });
     }
