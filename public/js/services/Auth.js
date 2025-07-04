@@ -48,3 +48,23 @@ export async function connection(data) {
         console.error(err);
     }
 }
+
+export async function getIfisConnected(data) {
+    try {
+        const preRes = await fetch(`${HOST}/api/auth/isConnected`, {
+            method: "GET",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            credentials: "include",
+        });
+        const res = await preRes.json();
+        return {
+            status: preRes.status,
+            ok: preRes.ok,
+            data: res
+        };
+    } catch (err) {
+        console.error(err);
+    }
+}

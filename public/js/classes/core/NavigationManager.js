@@ -1,3 +1,5 @@
+import { getIfisConnected } from "../../services/Auth.js";
+
 export class NavigationManager {
 
     constructor(routes, navHighLighter) {
@@ -30,9 +32,12 @@ export class NavigationManager {
         }
     }
 
-    navigate(pageKey, push = true) {
+    async navigate(pageKey, push = true) {
         const pageKeyWithoutParams = pageKey.split("?")[0];
         const controller = this.routes[pageKeyWithoutParams];
+
+        const isUserConnected = await this.checkIfIsConnected();
+        if (!isUserConnected && pageKey!=='auth') return;
 
         if (!controller) {
             this.show404();
@@ -46,6 +51,12 @@ export class NavigationManager {
 
         controller.show();
         this.navHighLighter.highlight(pageKey);
+    }
+
+    async checkIfIsConnected() {
+        const res = await getIfisConnected();
+        console.log(res);
+        return (res && res.data.isUser) ? true : false;
     }
 
     init() {

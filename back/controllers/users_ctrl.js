@@ -54,11 +54,30 @@ exports.connection = async (req, res, next) => {
 
     // Vérification de l'existance du mail
     const [user] = await pool.execute('SELECT * FROM users WHERE name=?', [name]);
-    if (!user[0] || !user[0].name) return res.status(400).json({ msg: "Non existant name" });
+    if (!user[0] || !user[0].name) {
+        res.clearCookie('authToken', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+            path: '/' // supprimer le cookie pour TOUS les chemins
+        });
+        return res.status(400).json({ msg: "Non existant name" });
+    }
+
 
     // Vérification du mdp
     const isPassword = await bcrypt.compare(password, user[0].password);
-    if (!isPassword) return res.status(400).json({ msg: "Password invalid" });
+    if (!isPassword) {
+
+        res.clearCookie('authToken', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+            path: '/' // supprimer le cookie pour TOUS les chemins
+        });
+
+        return res.status(400).json({ msg: "Password invalid" });
+    }
 
     // Modification de la table user pour indique que l'utilisateur est connecté:
     await pool.execute('UPDATE users SET isConnected = ? WHERE id = ?', [1, user[0].id]);
@@ -83,4 +102,26 @@ exports.connection = async (req, res, next) => {
     res.status(200).json({ msg: "Connection sucessful" });
 };
 
+
+exports.isConnected = async (req, res, next) => {
+    try {
+        if (req.auth.userId) return res.status(200).json({ isUser: true });
+    } catch (err) {
+        res.status(500).json({ error: err })
+    }
+};
+
+exports.disconnect = async (req, res, next) => {
+    try {
+        res.clearCookie('authToken', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+            path: '/'
+        });
+        return res.status(200).json({ msg: "Vous êtes désormais déconnecté" });
+    } catch (err) {
+        return res.status(500).json({ error: "Erreur serveur lors de la déconnexion" });
+    }
+};
 
