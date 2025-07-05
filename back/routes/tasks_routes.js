@@ -9,4 +9,4 @@ router.post("/", auth, tasksCtrl.createTask);
 router.put("/id", auth, tasksCtrl.updateTask);
 router.delete("/id", auth, tasksCtrl.deleteTask);
 
-module.exports = router;
+module.exports = router; 

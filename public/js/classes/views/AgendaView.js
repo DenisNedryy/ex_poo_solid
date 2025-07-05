@@ -2,6 +2,7 @@ import { tasks } from "../../data/tasks.js";
 
 export class AgendaView {
     constructor() {
+        this.modal = false;
         this.modeView = "Semaine";
         this.yearMonth = [
             "Janvier",
@@ -47,6 +48,67 @@ export class AgendaView {
         const year = dateSelected.year;
         const month = dateSelected.month;
         const dateDate = dateSelected.dateDate;
+
+        const modal = document.createElement("div");
+        modal.className = "modal hidden";
+        const modalContent = document.createElement("div");
+        modalContent.className = "modalContent";
+        const header = document.createElement("div");
+        header.className = "modal__content__header";
+        const title = document.createElement("h3");
+        title.textContent = "Nouvelle tâche";
+        header.appendChild(title);
+        const quit = document.createElement("i");
+        quit.className = "fa-solid fa-square-xmark leaveModal";
+        header.appendChild(quit);
+        modalContent.appendChild(header);
+        const form = document.createElement("form");
+
+        // name modal
+        const nameDiv = document.createElement("div");
+        const nameLabel = document.createElement("label");
+        nameLabel.textContent = "Name";
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.name = "name";
+        nameDiv.appendChild(nameLabel);
+        nameDiv.appendChild(nameInput);
+        // description modal
+        const descriptionDiv = document.createElement("div");
+        const descriptionLabel = document.createElement("label");
+        descriptionLabel.textContent = "Description";
+        const descriptionInput = document.createElement("textarea");
+        descriptionInput.name = "description";
+        descriptionDiv.appendChild(descriptionLabel);
+        descriptionDiv.appendChild(descriptionInput);
+        // type modal
+        const typeDiv = document.createElement("div");
+        const typeLabel = document.createElement("label");
+        typeLabel.textContent = "Type";
+        typeLabel.setAttribute("for", "typeSelect");
+        const select = document.createElement("select");
+        select.setAttribute("id", "typeSelect");
+        select.setAttribute("name", "type");
+        const enumValues = ['tasks', 'courses', 'rdvs', 'events', 'projets'];
+        enumValues.forEach(value => {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value.charAt(0).toUpperCase() + value.slice(1); // Capitalise la première lettre
+            select.appendChild(option);
+        });
+        typeDiv.appendChild(typeLabel);
+        typeDiv.appendChild(select);
+
+        form.appendChild(nameDiv);
+        form.appendChild(descriptionDiv);
+        form.appendChild(typeDiv);
+
+        const btn = document.createElement("button");
+        btn.textContent = "Enregistrer";
+        btn.type = "submit";
+        form.appendChild(btn);
+        modalContent.appendChild(form);
+        modal.appendChild(modalContent);
 
         const agendaWeekConsole = document.createElement("div");
         agendaWeekConsole.className = "agendaWeek__console";
@@ -133,7 +195,14 @@ export class AgendaView {
             const ul = document.createElement("ul");
             tasksEl.appendChild(ul);
 
+            // add Btn
+            const addBtn = document.createElement("li");
+            addBtn.textContent = "Ajouter une tâche";
+            addBtn.className = "addTask"
+            ul.appendChild(addBtn);
+
             for (let j = 0; j < weekDays[i].tasksByDay.length; j++) {
+
                 const li = document.createElement("li");
                 li.textContent = weekDays[i].tasksByDay[j].name;
                 li.className = weekDays[i].weekDays.isCurrentDay ? "currentWeekLi" : "";
@@ -153,8 +222,29 @@ export class AgendaView {
         }
         agendaEl.appendChild(agendaWeekBox);
         el.appendChild(agendaEl);
+        el.appendChild(modal);
     }
 
+    toggleModal() {
+        this.modal = !this.modal;
+        this.modal ? this.displayModal() : this.hideModal();
+    }
+
+    displayModal() {
+        const modal = document.querySelector(".modal");
+        if (modal) {
+            modal.classList.remove("hidden");
+            this.modal = true;
+        }
+    }
+
+    hideModal() {
+        const modal = document.querySelector(".modal");
+        if (modal) {
+            modal.classList.add("hidden");
+            this.modal = false;
+        }
+    }
     renderYearView(data, el) {
         this.modeView = "Année";
 

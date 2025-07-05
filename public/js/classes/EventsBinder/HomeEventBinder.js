@@ -44,6 +44,11 @@ export class HomeEventBinder {
             this.agendaModel.fetes = !this.agendaModel.fetes;
             const calendarData = this.agendaModel.getAgendaPerWeek();
             this.agendaView.renderCalendarWeek(calendarData);
+        }else if (e.target.classList.contains("addTask")){
+            this.agendaView.toggleModal();
+        }else if (e.target.classList.contains("leaveModal")){
+            console.log(this.agendaView.modal);
+             this.agendaView.hideModal();
         }
     }
 }

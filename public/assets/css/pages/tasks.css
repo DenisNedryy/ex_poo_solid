@@ -50,5 +50,10 @@
 
 .tasks__content__console__tasks i {
     font-size: 29px;
-    cursor:pointer;
+    cursor: pointer;
+}
+
+body .addTask {
+    background-color: #2e8b57 !important;
+    margin-bottom: 10px;
 }
