@@ -4,6 +4,7 @@ export class AgendaView {
     constructor() {
         this.modal = false;
         this.modeView = "Semaine";
+        this.currentDate = "";
         this.yearMonth = [
             "Janvier",
             "Février",
@@ -63,6 +64,7 @@ export class AgendaView {
         header.appendChild(quit);
         modalContent.appendChild(header);
         const form = document.createElement("form");
+        form.className="formTask-add";
 
         // name modal
         const nameDiv = document.createElement("div");
@@ -87,6 +89,7 @@ export class AgendaView {
         typeLabel.textContent = "Type";
         typeLabel.setAttribute("for", "typeSelect");
         const select = document.createElement("select");
+        select
         select.setAttribute("id", "typeSelect");
         select.setAttribute("name", "type");
         const enumValues = ['tasks', 'courses', 'rdvs', 'events', 'projets'];
@@ -106,6 +109,7 @@ export class AgendaView {
         const btn = document.createElement("button");
         btn.textContent = "Enregistrer";
         btn.type = "submit";
+        btn.className="btn-submit-addTask"
         form.appendChild(btn);
         modalContent.appendChild(form);
         modal.appendChild(modalContent);
@@ -198,7 +202,9 @@ export class AgendaView {
             // add Btn
             const addBtn = document.createElement("li");
             addBtn.textContent = "Ajouter une tâche";
-            addBtn.className = "addTask"
+            addBtn.className = "addTask";
+            console.log(weekDays[i]);
+            this.currentDate = `${weekDays[i].weekDays.year}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.month-1)}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.dayDateNum)}`;
             ul.appendChild(addBtn);
 
             for (let j = 0; j < weekDays[i].tasksByDay.length; j++) {
@@ -225,6 +231,10 @@ export class AgendaView {
         el.appendChild(modal);
     }
 
+    createTask(date) {
+
+    }
+
     toggleModal() {
         this.modal = !this.modal;
         this.modal ? this.displayModal() : this.hideModal();
@@ -245,6 +255,9 @@ export class AgendaView {
             this.modal = false;
         }
     }
+
+
+
     renderYearView(data, el) {
         this.modeView = "Année";
 

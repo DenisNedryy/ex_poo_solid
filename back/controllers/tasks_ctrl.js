@@ -36,7 +36,7 @@ exports.createTask = async (req, res, next) => {
 
         const data = {
             id: uuidv4(),
-            user_id: req.auth.userId,
+            owner_id: req.auth.userId,
             name: name || null,
             description: description || null,
             date: date || null,
@@ -44,9 +44,10 @@ exports.createTask = async (req, res, next) => {
             author_id: author_id || null
         }
 
+
         const keys = Object.keys(data).filter((key) => data[key] !== null);
-        const values = Object.values((value) => value !== null);
-        const placeholder = keys.map(() => "? ".join(", "));
+        const values = keys.map((key) => data[key]);
+        const placeholder = keys.map(() => "?").join(", ");
 
         await pool.execute(`INSERT INTO tasks (${keys.join(", ")}) VALUES(${placeholder})`, values);
 

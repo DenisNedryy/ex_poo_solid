@@ -49,6 +49,7 @@ export class AuthView {
 
     renderConnection(el) {
         const form = document.createElement("form");
+        form.className="form-auth";
 
         const title = document.createElement("h2");
         title.className = "auth__header__title";
@@ -86,6 +87,7 @@ export class AuthView {
 
     renderInscription(el) {
         const form = document.createElement("form");
+        form.className = "form-auth";
 
         const title = document.createElement("h2");
         title.className = "auth__header__title";

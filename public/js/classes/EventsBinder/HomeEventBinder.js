@@ -1,3 +1,5 @@
+import { createTask } from "../../services/tasks.js";
+
 export class HomeEventBinder {
     constructor(agendaModel, homeView, agendaView) {
         this.agendaModel = agendaModel;
@@ -44,11 +46,31 @@ export class HomeEventBinder {
             this.agendaModel.fetes = !this.agendaModel.fetes;
             const calendarData = this.agendaModel.getAgendaPerWeek();
             this.agendaView.renderCalendarWeek(calendarData);
-        }else if (e.target.classList.contains("addTask")){
+        } else if (e.target.classList.contains("addTask")) {
             this.agendaView.toggleModal();
-        }else if (e.target.classList.contains("leaveModal")){
+        } else if (e.target.classList.contains("leaveModal")) {
             console.log(this.agendaView.modal);
-             this.agendaView.hideModal();
+            this.agendaView.hideModal();
+        } else if (e.target.classList.contains("btn-submit-addTask")) {
+            const form = e.target.closest("form");
+            this.addTask(form);
         }
+    }
+
+    async addTask(form) {
+        const name = form.elements['name'].value;
+        const description = form.elements['description'].value;
+        const type = form.elements['type'].value;
+        const date = this.agendaView.currentDate;
+        const data = {
+            name: name,
+            description: description,
+            type: type,
+            date: date
+        }
+
+        // il faut rajouter le author id 
+        const res = await createTask(data);
+        console.log(res);
     }
 }

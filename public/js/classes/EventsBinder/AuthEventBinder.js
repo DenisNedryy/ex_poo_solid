@@ -24,7 +24,9 @@ export class AuthEventBinder {
     handleSubmit(e) {
         const isConnection = this.view.isConnection;
         e.preventDefault();
-        const form = document.querySelector("form");
+        const form = e.target.closest("form");
+        if (!form || !form.classList.contains("form-auth")) return;
+
         if (isConnection) {
             this.submitConnection(form);
         } else {

@@ -51,9 +51,9 @@ export async function createTask(data) {
             body: JSON.stringify({
                 name: data.name,
                 description: data.description,
-                date: date,
-                type: type,
-                author_id: author_id
+                date: data.date,
+                type: data.type,
+                author_id: data.author_id || null
             }),
         });
         const res = await preRes.json();
