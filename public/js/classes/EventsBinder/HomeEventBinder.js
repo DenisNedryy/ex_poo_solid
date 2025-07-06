@@ -1,4 +1,5 @@
 import { createTask } from "../../services/tasks.js";
+import { getOneUser } from "../../services/Auth.js";
 
 export class HomeEventBinder {
     constructor(agendaModel, homeView, agendaView) {
@@ -6,11 +7,27 @@ export class HomeEventBinder {
         this.agendaView = agendaView;
         this.homeView = homeView;
         this.boundHandleClickTask = this.handleClickTask.bind(this);
+        this.boundHandleChange = this.handleChangeTask.bind(this);
     }
 
     addEventListeners() {
         document.removeEventListener('click', this.boundHandleClickTask);
         document.addEventListener('click', this.boundHandleClickTask);
+        document.removeEventListener("change", this.boundHandleChange);
+        document.addEventListener('change', this.boundHandleChange);
+    }
+
+    async handleChangeTask(e) {
+        if (e.target.id === "usersSelect") {
+            const name = e.target.value;
+            const select = e.target;
+            const selectedOption = select.options[select.selectedIndex];
+            const dataId = selectedOption.getAttribute('data-id');
+            const res = await getOneUser(dataId);
+            this.agendaView.userSelected = res.data.user;
+            const dataCalendar = this.agendaModel.init();
+            this.agendaView.renderCalendarWeek(dataCalendar);
+        }
     }
 
     handleClickTask(e) {

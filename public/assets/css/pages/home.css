@@ -277,6 +277,10 @@
     top: auto;
 }
 
+.usersChoiceContainer img{
+    width: 35px;
+}
+
 /* --------modal------- */
 
 body .hidden {

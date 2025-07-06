@@ -5,6 +5,39 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require('fs').promises;
 
+exports.getUsers = async (req, res, next) => {
+    try {
+        const [users] = await pool.execute(`SELECT name, img_url, id FROM users`);
+        if (users.length === 0) { return res.status(200).json({ users: [] }) };
+        return res.status(200).json({ users: users });
+    } catch (err) {
+        return res.status(500).json({ error: err });
+    }
+}
+
+exports.getOneUser = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const [users] = await pool.execute(`SELECT name, img_url, id FROM users WHERE id = ?`,[id]);
+        if (users.length === 0) { return res.status(200).json({ users: [] }) };
+        return res.status(200).json({ user: users[0] });
+    } catch (err) {
+        return res.status(500).json({ error: err });
+    }
+}
+
+
+exports.getMyPfofil = async (req, res, next) => {
+    try {
+        const id = req.auth.userId;
+        const [users] = await pool.execute(`SELECT name, img_url, id FROM users WHERE id = ?`, [id]);
+        if (users.length === 0) { return res.status(200).json({ users: [] }) };
+        return res.status(200).json({ user: users[0] });
+    } catch (err) {
+        return res.status(500).json({ error: err });
+    }
+}
+
 
 exports.inscription = async (req, res, next) => {
     try {
@@ -26,7 +59,7 @@ exports.inscription = async (req, res, next) => {
             id: uuidv4(),
             name: req.body.name,
             password: hash,
-            img_url: req.file ? req.file.filename : "default_avatar_profile.png"
+            img_url: req.file ? req.file.filename : "avatar_sample.png"
         };
 
         const [existingUser] = await pool.execute('SELECT * FROM users WHERE name = ?', [req.body.name]);

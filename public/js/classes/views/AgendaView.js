@@ -1,9 +1,14 @@
 import { tasks } from "../../data/tasks.js";
+import { getUsers, getMyProfil } from "../../services/Auth.js";
+import { HOST } from "../../host.js";
 
 export class AgendaView {
     constructor() {
         this.modal = false;
         this.modeView = "Semaine";
+        this.users = [];
+        this.userSelected = "";
+        this.myUser = "";
         this.currentDate = "";
         this.yearMonth = [
             "Janvier",
@@ -30,6 +35,11 @@ export class AgendaView {
         ];
     }
 
+    async getUsersArray() {
+        const res = await getUsers();
+        return res.data.users;
+    }
+
     getCurrentDayLetter(num) {
         return num === 0 ? this.daysLetters[6] : this.daysLetters[num - 1];
     }
@@ -41,7 +51,12 @@ export class AgendaView {
         return number < 10 ? `0${number}` : number;
     }
 
-    renderWeekView(data, el) {
+    async getMyUser() {
+        const res = await getMyProfil();
+        return res.data.user;
+    }
+
+    async renderWeekView(data, el) {
         this.modeView = "Semaine";
         const agendaEl = document.createElement("div");
         agendaEl.className = "agendaWeek";
@@ -64,7 +79,7 @@ export class AgendaView {
         header.appendChild(quit);
         modalContent.appendChild(header);
         const form = document.createElement("form");
-        form.className="formTask-add";
+        form.className = "formTask-add";
 
         // name modal
         const nameDiv = document.createElement("div");
@@ -109,11 +124,44 @@ export class AgendaView {
         const btn = document.createElement("button");
         btn.textContent = "Enregistrer";
         btn.type = "submit";
-        btn.className="btn-submit-addTask"
+        btn.className = "btn-submit-addTask"
         form.appendChild(btn);
         modalContent.appendChild(form);
         modal.appendChild(modalContent);
 
+        // choix du user
+        this.users = await this.getUsersArray();
+        this.userSelected = await this.getMyUser();
+        this.myUser = await this.getMyUser();
+        const selectUsers = document.createElement("select");
+        const usersDiv = document.createElement("div");
+        usersDiv.className = "usersChoiceContainer";
+        const usersLabel = document.createElement("label");
+        usersLabel.textContent = "Utilisateurs";
+        usersLabel.setAttribute("for", "usersSelect");
+
+        selectUsers.setAttribute("id", "usersSelect");
+        selectUsers.setAttribute("name", "type");
+
+        this.users.forEach(user => {
+            const option = document.createElement("option");
+            option.value = user.name; // ou user.name selon tes besoins
+            option.setAttribute("data-id", user.id);
+            // option.innerHTML = `<img src='${HOST}/api/images/avatars/${user.img_url}'/> <p>${user.name}</p>`;
+            option.textContent = user.name.charAt(0).toUpperCase() + user.name.slice(1);
+            selectUsers.appendChild(option);
+        });
+        const imgUser = document.createElement("img");
+        imgUser.src = `${HOST}/api/images/avatars/${this.userSelected.img_url}`;
+
+
+
+        usersDiv.appendChild(usersLabel);
+        usersDiv.appendChild(selectUsers);
+        usersDiv.appendChild(imgUser);
+        el.appendChild(usersDiv);
+
+        // console
         const agendaWeekConsole = document.createElement("div");
         agendaWeekConsole.className = "agendaWeek__console";
         const today = document.createElement("p");
@@ -204,7 +252,7 @@ export class AgendaView {
             addBtn.textContent = "Ajouter une tâche";
             addBtn.className = "addTask";
             console.log(weekDays[i]);
-            this.currentDate = `${weekDays[i].weekDays.year}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.month-1)}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.dayDateNum)}`;
+            this.currentDate = `${weekDays[i].weekDays.year}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.month - 1)}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.dayDateNum)}`;
             ul.appendChild(addBtn);
 
             for (let j = 0; j < weekDays[i].tasksByDay.length; j++) {
@@ -231,9 +279,7 @@ export class AgendaView {
         el.appendChild(modal);
     }
 
-    createTask(date) {
 
-    }
 
     toggleModal() {
         this.modal = !this.modal;
