@@ -6,7 +6,7 @@
 
 .home__content {
     display: flex;
-    align-items: center;
+    flex-direction: column;
 }
 
 /* Agenda  */
@@ -277,7 +277,7 @@
     top: auto;
 }
 
-.usersChoiceContainer img{
+.usersChoiceContainer img {
     width: 35px;
 }
 
@@ -388,4 +388,10 @@ body .hidden {
 
 .leaveModal:hover {
     color: rgb(242, 176, 176);
+}
+
+/* // AGENDA CONSOLE */
+
+#agenda-console{
+    height: 40px;
 }

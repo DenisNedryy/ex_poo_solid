@@ -7,7 +7,8 @@ export class AgendaView {
         this.modal = false;
         this.modeView = "Semaine";
         this.users = [];
-        this.userSelected = "";
+        this.authUser = {};
+        this.userSelected = null;
         this.myUser = "";
         this.currentDate = "";
         this.yearMonth = [
@@ -57,6 +58,8 @@ export class AgendaView {
     }
 
     async renderWeekView(data, el) {
+        this.renderAgendaConsole();
+
         this.modeView = "Semaine";
         const agendaEl = document.createElement("div");
         agendaEl.className = "agendaWeek";
@@ -65,6 +68,7 @@ export class AgendaView {
         const month = dateSelected.month;
         const dateDate = dateSelected.dateDate;
 
+        // MODAL
         const modal = document.createElement("div");
         modal.className = "modal hidden";
         const modalContent = document.createElement("div");
@@ -114,6 +118,7 @@ export class AgendaView {
             option.textContent = value.charAt(0).toUpperCase() + value.slice(1); // Capitalise la première lettre
             select.appendChild(option);
         });
+
         typeDiv.appendChild(typeLabel);
         typeDiv.appendChild(select);
 
@@ -129,37 +134,37 @@ export class AgendaView {
         modalContent.appendChild(form);
         modal.appendChild(modalContent);
 
-        // choix du user
-        this.users = await this.getUsersArray();
-        this.userSelected = await this.getMyUser();
-        this.myUser = await this.getMyUser();
-        const selectUsers = document.createElement("select");
-        const usersDiv = document.createElement("div");
-        usersDiv.className = "usersChoiceContainer";
-        const usersLabel = document.createElement("label");
-        usersLabel.textContent = "Utilisateurs";
-        usersLabel.setAttribute("for", "usersSelect");
+        // // choix du user
+        // this.users = await this.getUsersArray();
+        // this.userSelected = await this.getMyUser();
+        // this.myUser = await this.getMyUser();
+        // const selectUsers = document.createElement("select");
+        // const usersDiv = document.createElement("div");
+        // usersDiv.className = "usersChoiceContainer";
+        // const usersLabel = document.createElement("label");
+        // usersLabel.textContent = "Utilisateurs";
+        // usersLabel.setAttribute("for", "usersSelect");
 
-        selectUsers.setAttribute("id", "usersSelect");
-        selectUsers.setAttribute("name", "type");
+        // selectUsers.setAttribute("id", "usersSelect");
+        // selectUsers.setAttribute("name", "type");
 
-        this.users.forEach(user => {
-            const option = document.createElement("option");
-            option.value = user.name; // ou user.name selon tes besoins
-            option.setAttribute("data-id", user.id);
-            // option.innerHTML = `<img src='${HOST}/api/images/avatars/${user.img_url}'/> <p>${user.name}</p>`;
-            option.textContent = user.name.charAt(0).toUpperCase() + user.name.slice(1);
-            selectUsers.appendChild(option);
-        });
-        const imgUser = document.createElement("img");
-        imgUser.src = `${HOST}/api/images/avatars/${this.userSelected.img_url}`;
+        // this.users.forEach(user => {
+        //     const option = document.createElement("option");
+        //     option.value = user.name; // ou user.name selon tes besoins
+        //     option.setAttribute("data-id", user.id);
+        //     // option.innerHTML = `<img src='${HOST}/api/images/avatars/${user.img_url}'/> <p>${user.name}</p>`;
+        //     option.textContent = user.name.charAt(0).toUpperCase() + user.name.slice(1);
+        //     selectUsers.appendChild(option);
+        // });
+        // const imgUser = document.createElement("img");
+        // imgUser.src = `${HOST}/api/images/avatars/${this.userSelected.img_url}`;
 
 
 
-        usersDiv.appendChild(usersLabel);
-        usersDiv.appendChild(selectUsers);
-        usersDiv.appendChild(imgUser);
-        el.appendChild(usersDiv);
+        // usersDiv.appendChild(usersLabel);
+        // usersDiv.appendChild(selectUsers);
+        // usersDiv.appendChild(imgUser);
+        // el.appendChild(usersDiv);
 
         // console
         const agendaWeekConsole = document.createElement("div");
@@ -277,6 +282,8 @@ export class AgendaView {
         agendaEl.appendChild(agendaWeekBox);
         el.appendChild(agendaEl);
         el.appendChild(modal);
+
+
     }
 
 
@@ -302,6 +309,46 @@ export class AgendaView {
         }
     }
 
+
+    async renderAgendaConsole() {
+        const el = document.getElementById("agenda-console");
+        if (el) {
+            el.innerHTML = "";
+            // choix du user
+            this.users = await this.getUsersArray();
+            if(this.userSelected === null) this.userSelected = await this.getMyUser();
+            console.log(this.userSelected);
+            this.myUser = await this.getMyUser();
+            const selectUsers = document.createElement("select");
+            const usersDiv = document.createElement("div");
+            usersDiv.className = "usersChoiceContainer";
+            const usersLabel = document.createElement("label");
+            usersLabel.textContent = "Utilisateurs";
+            usersLabel.setAttribute("for", "usersSelect");
+
+            selectUsers.setAttribute("id", "usersSelect");
+            selectUsers.setAttribute("name", "type");
+            console.log(this.userSelected);
+            this.users.forEach(user => {
+                const option = document.createElement("option");
+                option.value = user.name; // ou user.name selon tes besoins
+                option.setAttribute("data-id", user.id);
+                // option.innerHTML = `<img src='${HOST}/api/images/avatars/${user.img_url}'/> <p>${user.name}</p>`;
+                option.textContent = user.name.charAt(0).toUpperCase() + user.name.slice(1);
+                if (user.id === this.userSelected.id) {
+                    option.selected = true;
+                }else option.selected = false;
+                selectUsers.appendChild(option);
+            });
+            const imgUser = document.createElement("img");
+            imgUser.src = `${HOST}/api/images/avatars/${this.userSelected.img_url}`;
+
+            usersDiv.appendChild(usersLabel);
+            usersDiv.appendChild(selectUsers);
+            usersDiv.appendChild(imgUser);
+            el.appendChild(usersDiv);
+        }
+    }
 
 
     renderYearView(data, el) {

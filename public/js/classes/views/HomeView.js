@@ -5,11 +5,12 @@ export class HomeView {
         if (el) {
             el.innerHTML = `
             <div class="home">
-                <div class="home__header bg_head">
+                <div class="home__header bg_head"> 
                     <h2>Accueil</h2>
                 </div>
                 <div class="home__content bg_main"> 
-                <div id="agenda">
+                <div id="agenda-console"></div>
+                <div id="agenda"> 
                     <img src="/public/assets/pictures/logos/logo_white.png"/>
                 </div>
             </div>
