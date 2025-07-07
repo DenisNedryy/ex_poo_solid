@@ -103,6 +103,11 @@ export class Agenda_model {
         return nouvelleDate;
     }
 
+    async getPlanning(){
+         await this.fetchTasksFromApi();
+         console.log(this.tasks);
+    }
+
     async getAgendaPerWeek(date = false) {
         if (date === false) {
             const currentDate = new Date();

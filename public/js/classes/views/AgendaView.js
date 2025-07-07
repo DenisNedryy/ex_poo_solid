@@ -172,6 +172,10 @@ export class AgendaView {
         yearView.className = "yearViewLi";
         yearView.textContent = "Année";
         modList.appendChild(yearView);
+        const planningView = document.createElement("li");
+        planningView.className = "planningViewLi";
+        planningView.textContent = "Planning";
+        modList.appendChild(planningView);
 
         viewMode.appendChild(modList);
         agendaWeekConsole.appendChild(viewMode);
@@ -250,8 +254,40 @@ export class AgendaView {
         agendaEl.appendChild(agendaWeekBox);
         el.appendChild(agendaEl);
         el.appendChild(modal);
+    }
 
+    renderPlanning(data) {
+        const el = document.querySelector("#agenda");
+        if (el) {
+            el.innerHTML = "";
 
+            // viewMod (semaine, mois, planning)
+            const viewMode = document.createElement("div");
+            viewMode.className = "viewMode";
+            const viewModePara = document.createElement("p");
+            viewModePara.className = "viewModePara";
+            viewModePara.textContent = this.modeView;
+            viewMode.appendChild(viewModePara);
+
+            const modList = document.createElement("ul");
+            const weekView = document.createElement("li");
+            weekView.className = "weekViewLi"
+            weekView.textContent = "Semaine";
+            modList.appendChild(weekView);
+            const yearView = document.createElement("li");
+            yearView.className = "yearViewLi";
+            yearView.textContent = "Année";
+            modList.appendChild(yearView);
+
+            const planningView = document.createElement("li");
+            planningView.className = "listViewLi";
+            planningView.textContent = "Planning";
+            modList.appendChild(planningView);
+
+            viewMode.appendChild(modList);
+            el.appendChild(viewMode);
+            agendaYearConsole.appendChild(viewMode);
+        }
     }
 
 
@@ -355,6 +391,11 @@ export class AgendaView {
         yearView.className = "yearViewLi";
         yearView.textContent = "Année";
         modList.appendChild(yearView);
+
+        const planningView = document.createElement("li");
+        planningView.className = "listViewLi";
+        planningView.textContent = "Planning";
+        modList.appendChild(planningView);
 
         viewMode.appendChild(modList);
         agendaYearConsole.appendChild(viewMode);

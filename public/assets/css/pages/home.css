@@ -279,6 +279,9 @@
 
 .usersChoiceContainer img {
     width: 35px;
+    height: 35px;
+     background-image: linear-gradient(to bottom, #c00e18 0%, #bf1d27 50%, #c43f46 100%);
+    object-fit:cover;
 }
 
 /* --------modal------- */
@@ -410,4 +413,14 @@ body .hidden {
     background-color: rgb(30, 33, 36);
     border: 1px solid rgb(46, 49, 54);
     padding-left: 15px;
+}
+
+/* view mod */
+.viewModePara {
+    padding: 10px;
+    background-color: rgb(36, 50, 49);
+    border: 1px solid rgb(91, 192, 110);
+    color: white;
+    transition: .4s;
+    width: fit-content;
 }
