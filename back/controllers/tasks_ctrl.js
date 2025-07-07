@@ -33,23 +33,28 @@ exports.createTask = async (req, res, next) => {
     console.log("CTRL createTask");
     try {
         const { name, description, date, type, author_id } = req.body;
+        console.log(req.auth.userId);
 
         const data = {
             id: uuidv4(),
-            owner_id: req.auth.userId,
             name: name || null,
             description: description || null,
             date: date || null,
             type: type || null,
             author_id: author_id || null
         }
-
+        if (author_id !== null) {
+            data.user_id = author_id;
+        } else {
+            data.user_id = req.auth.userId;
+        }
 
         const keys = Object.keys(data).filter((key) => data[key] !== null);
         const values = keys.map((key) => data[key]);
         const placeholder = keys.map(() => "?").join(", ");
 
         await pool.execute(`INSERT INTO tasks (${keys.join(", ")}) VALUES(${placeholder})`, values);
+        return res.status(200).json({ msg: "task created" })
 
     } catch (err) {
         return res.status(500).json({ err });

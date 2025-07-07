@@ -1,4 +1,4 @@
-import { tasks } from "../../data/tasks.js";
+
 import { getUsers, getMyProfil } from "../../services/Auth.js";
 import { HOST } from "../../host.js";
 
@@ -7,7 +7,7 @@ export class AgendaView {
         this.modal = false;
         this.modeView = "Semaine";
         this.users = [];
-        this.authUser = {};
+        this.authUser = null;
         this.userSelected = null;
         this.myUser = "";
         this.currentDate = "";
@@ -58,7 +58,7 @@ export class AgendaView {
     }
 
     async renderWeekView(data, el) {
-        this.renderAgendaConsole();
+        await this.renderAgendaConsole();
 
         this.modeView = "Semaine";
         const agendaEl = document.createElement("div");
@@ -133,38 +133,6 @@ export class AgendaView {
         form.appendChild(btn);
         modalContent.appendChild(form);
         modal.appendChild(modalContent);
-
-        // // choix du user
-        // this.users = await this.getUsersArray();
-        // this.userSelected = await this.getMyUser();
-        // this.myUser = await this.getMyUser();
-        // const selectUsers = document.createElement("select");
-        // const usersDiv = document.createElement("div");
-        // usersDiv.className = "usersChoiceContainer";
-        // const usersLabel = document.createElement("label");
-        // usersLabel.textContent = "Utilisateurs";
-        // usersLabel.setAttribute("for", "usersSelect");
-
-        // selectUsers.setAttribute("id", "usersSelect");
-        // selectUsers.setAttribute("name", "type");
-
-        // this.users.forEach(user => {
-        //     const option = document.createElement("option");
-        //     option.value = user.name; // ou user.name selon tes besoins
-        //     option.setAttribute("data-id", user.id);
-        //     // option.innerHTML = `<img src='${HOST}/api/images/avatars/${user.img_url}'/> <p>${user.name}</p>`;
-        //     option.textContent = user.name.charAt(0).toUpperCase() + user.name.slice(1);
-        //     selectUsers.appendChild(option);
-        // });
-        // const imgUser = document.createElement("img");
-        // imgUser.src = `${HOST}/api/images/avatars/${this.userSelected.img_url}`;
-
-
-
-        // usersDiv.appendChild(usersLabel);
-        // usersDiv.appendChild(selectUsers);
-        // usersDiv.appendChild(imgUser);
-        // el.appendChild(usersDiv);
 
         // console
         const agendaWeekConsole = document.createElement("div");
@@ -256,7 +224,7 @@ export class AgendaView {
             const addBtn = document.createElement("li");
             addBtn.textContent = "Ajouter une tâche";
             addBtn.className = "addTask";
-            console.log(weekDays[i]);
+            addBtn.setAttribute("data-date", `${weekDays[i].weekDays.year}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.month - 1)}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.dayDateNum)}`);
             this.currentDate = `${weekDays[i].weekDays.year}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.month - 1)}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.dayDateNum)}`;
             ul.appendChild(addBtn);
 
@@ -316,19 +284,15 @@ export class AgendaView {
             el.innerHTML = "";
             // choix du user
             this.users = await this.getUsersArray();
-            if(this.userSelected === null) this.userSelected = await this.getMyUser();
-            console.log(this.userSelected);
+            if (this.userSelected === null) this.userSelected = await this.getMyUser();
+            if (this.authUser === null) this.authUser = await this.getMyUser();
             this.myUser = await this.getMyUser();
             const selectUsers = document.createElement("select");
             const usersDiv = document.createElement("div");
             usersDiv.className = "usersChoiceContainer";
-            const usersLabel = document.createElement("label");
-            usersLabel.textContent = "Utilisateurs";
-            usersLabel.setAttribute("for", "usersSelect");
 
             selectUsers.setAttribute("id", "usersSelect");
             selectUsers.setAttribute("name", "type");
-            console.log(this.userSelected);
             this.users.forEach(user => {
                 const option = document.createElement("option");
                 option.value = user.name; // ou user.name selon tes besoins
@@ -337,13 +301,13 @@ export class AgendaView {
                 option.textContent = user.name.charAt(0).toUpperCase() + user.name.slice(1);
                 if (user.id === this.userSelected.id) {
                     option.selected = true;
-                }else option.selected = false;
+                } else option.selected = false;
                 selectUsers.appendChild(option);
             });
             const imgUser = document.createElement("img");
             imgUser.src = `${HOST}/api/images/avatars/${this.userSelected.img_url}`;
 
-            usersDiv.appendChild(usersLabel);
+
             usersDiv.appendChild(selectUsers);
             usersDiv.appendChild(imgUser);
             el.appendChild(usersDiv);
@@ -507,11 +471,11 @@ export class AgendaView {
         return number < 10 ? `0${number}` : number;
     }
 
-    renderCalendarWeek(calendarData) {
+    async renderCalendarWeek(calendarData) {
         const el = document.querySelector("#agenda");
         if (el) {
             el.innerHTML = "";
-            this.renderWeekView(calendarData, el);
+            await this.renderWeekView(calendarData, el);
         }
     }
 

@@ -392,6 +392,22 @@ body .hidden {
 
 /* // AGENDA CONSOLE */
 
-#agenda-console{
+#agenda-console {
     height: 40px;
+}
+
+.usersChoiceContainer {
+    display: flex;
+    align-items: center;
+    margin: 10px 12px;
+}
+
+.usersChoiceContainer select {
+    height: 33px;
+    border-radius: 0;
+    margin: 0px 5px;
+    color: white;
+    background-color: rgb(30, 33, 36);
+    border: 1px solid rgb(46, 49, 54);
+    padding-left: 15px;
 }

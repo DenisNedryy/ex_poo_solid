@@ -8,7 +8,6 @@ export class NavigationManager {
 
         window.addEventListener('popstate', (event) => {
             const page = event.state?.page || this.getPageFromURL();
-            console.log(event.state);
             this.navigate(page, null);
         });
     }
@@ -55,7 +54,6 @@ export class NavigationManager {
 
     async checkIfIsConnected() {
         const res = await getIfisConnected();
-        console.log(res);
         return (res && res.data.isUser) ? true : false;
     }
 

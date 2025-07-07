@@ -3,6 +3,7 @@ import { getOneUser } from "../../services/Auth.js";
 
 export class HomeEventBinder {
     constructor(agendaModel, homeView, agendaView) {
+        this.clickedDate = null;
         this.agendaModel = agendaModel;
         this.agendaView = agendaView;
         this.homeView = homeView;
@@ -25,29 +26,31 @@ export class HomeEventBinder {
             const dataId = selectedOption.getAttribute('data-id');
             const res = await getOneUser(dataId);
             this.agendaView.userSelected = res.data.user;
-            const dataCalendar = this.agendaModel.init();
-            this.agendaView.renderCalendarWeek(dataCalendar);
+            this.agendaModel.userIdSelected = res.data.user.id;
+            const dataCalendar = await this.agendaModel.init();
+            await this.agendaView.renderCalendarWeek(dataCalendar);
         }
     }
 
-    handleClickTask(e) {
+    async handleClickTask(e) {
+
         if (e.target.classList.contains("agendaTurnLeft")) {
             const dateYYYYMMDD = this.agendaModel.agendaWeekTurnLeft();
-            const calendarData = this.agendaModel.getAgendaPerWeek(dateYYYYMMDD);
-            this.agendaView.renderCalendarWeek(calendarData);
+            const calendarData = await this.agendaModel.getAgendaPerWeek(dateYYYYMMDD);
+            await this.agendaView.renderCalendarWeek(calendarData);
         } else if (e.target.classList.contains("agendaTurnRight")) {
             const dateYYYYMMDD = this.agendaModel.agendaWeekTurnRight();
-            const calendarData = this.agendaModel.getAgendaPerWeek(dateYYYYMMDD);
-            this.agendaView.renderCalendarWeek(calendarData);
+            const calendarData = await this.agendaModel.getAgendaPerWeek(dateYYYYMMDD);
+            await this.agendaView.renderCalendarWeek(calendarData);
         } else if (e.target.classList.contains("agendaWeek__console__today")) {
-            const calendarData = this.agendaModel.getAgendaPerWeek();
-            this.agendaView.renderCalendarWeek(calendarData);
+            const calendarData = await this.agendaModel.getAgendaPerWeek();
+            await this.agendaView.renderCalendarWeek(calendarData);
         } else if (e.target.classList.contains("yearViewLi")) {
             const calendarData = this.agendaModel.getAgendaPerYear();
             this.agendaView.renderCalendarYear(calendarData);
         } else if (e.target.classList.contains("weekViewLi")) {
-            const calendarData = this.agendaModel.getAgendaPerWeek();
-            this.agendaView.renderCalendarWeek(calendarData);
+            const calendarData = await this.agendaModel.getAgendaPerWeek();
+            await this.agendaView.renderCalendarWeek(calendarData);
         } else if (e.target.classList.contains("agendaYearTurnLeft")) {
             const year = this.agendaModel.agendaYearTurnLeft();
             const calendarData = this.agendaModel.getAgendaPerYear(year);
@@ -61,10 +64,11 @@ export class HomeEventBinder {
             this.agendaView.renderCalendarYear(calendarData);
         } else if (e.target.classList.contains("joursFeries") || e.target.classList.contains("checkFetes")) {
             this.agendaModel.fetes = !this.agendaModel.fetes;
-            const calendarData = this.agendaModel.getAgendaPerWeek();
-            this.agendaView.renderCalendarWeek(calendarData);
+            const calendarData = await this.agendaModel.getAgendaPerWeek();
+            await this.agendaView.renderCalendarWeek(calendarData);
         } else if (e.target.classList.contains("addTask")) {
             this.agendaView.toggleModal();
+            this.clickedDate = e.target.getAttribute("data-date");
         } else if (e.target.classList.contains("leaveModal")) {
             console.log(this.agendaView.modal);
             this.agendaView.hideModal();
@@ -78,7 +82,7 @@ export class HomeEventBinder {
         const name = form.elements['name'].value;
         const description = form.elements['description'].value;
         const type = form.elements['type'].value;
-        const date = this.agendaView.currentDate;
+        const date = this.clickedDate;
         const data = {
             name: name,
             description: description,
@@ -86,8 +90,15 @@ export class HomeEventBinder {
             date: date
         }
 
+        // check if auth!==current 
+        const auth = this.agendaView.authUser;
+        const currentUser = this.agendaView.userSelected;
+
+        if (auth.id !== currentUser.id) data.author_id = currentUser.id;
+
         // il faut rajouter le author id 
         const res = await createTask(data);
-        console.log(res);
+        const calendarData = await this.agendaModel.getAgendaPerWeek(date);
+        await this.agendaView.renderCalendarWeek(calendarData);
     }
 }

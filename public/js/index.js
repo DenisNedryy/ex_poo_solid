@@ -61,7 +61,7 @@ const agendaModel = new Agenda_model();
 const dailyPlanningEventBinder = new DailyPlanningEventBinder(dailyPlanningModel, dailyPlanningView);
 const connexionEventBinder = new ConnexionEventBinder(connexionView, utilsView);
 const homeEventBinder = new HomeEventBinder(agendaModel, homeView, agendaView);
-const authEventBinder = new AuthEventBinder(authView);
+const authEventBinder = new AuthEventBinder(authView, utilsView);
 
 const dailyPlanningCtrl = new DailyPlanningCtrl(dailyPlanningView, seoManager, dailyPlanningEventBinder);
 const homeCtrl = new HomeCtrl(homeView, agendaView, agendaModel, seoManager, homeEventBinder);

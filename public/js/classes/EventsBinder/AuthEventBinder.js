@@ -1,8 +1,9 @@
 import { inscription, connection } from "../../services/Auth.js";
 
 export class AuthEventBinder {
-    constructor(view) {
+    constructor(view, utilsView) {
         this.view = view;
+        this.utilsView = utilsView;
         this.boundHandleClickTask = this.handleClickTask.bind(this);
         this.boundHandleSubmit = this.handleSubmit.bind(this);
     }
@@ -44,6 +45,8 @@ export class AuthEventBinder {
         }
         const res = await connection(data);
         console.log(res);
+        // modification avatar
+        this.utilsView.changeAvatar();
     }
 
     async submitInscription(form) {

@@ -8,9 +8,9 @@ export class HomeCtrl {
         this.homeEventBinder = homeEventBinder;
     }
 
-    show() {
+    async show() {
         this.homeView.render();
-        const data = this.agendModel.init();
+        const data = await this.agendModel.init();
         this.agendaView.renderCalendarWeek(data);
         this.seoManager.setTitle('Ecorcerie Gestionnaire - Accueil');
         this.homeEventBinder.addEventListeners();

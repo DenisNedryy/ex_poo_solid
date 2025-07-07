@@ -1,13 +1,50 @@
-import { tasks } from "../../data/tasks.js";
+
+import { readTasks } from "../../services/tasks.js"
+import { getMyProfil } from "../../services/Auth.js";
+
 
 export class Agenda_model {
     constructor() {
+        this.tasks = [];
         this.stateDateMs = null;
+        this.userIdSelected = null;
+        this.auth = null;
         this.stateYear = null;
         this.fetes = true;
     }
 
-    getDaysInFebruary(year = this.year) {
+    async getMyUser() {
+        const res = await getMyProfil();
+        return res.data.user;
+    }
+
+    async fetchTasksFromApi() {
+        try {
+            const response = await readTasks() // ← À modifier
+            this.tasks = response.data.tasks;
+
+            const auth = await this.getMyUser();
+
+            this.tasks = this.tasks.filter((task) => task.user_id === (this.userIdSelected? this.userIdSelected : auth.id));
+            this.tasks = this.tasks.map((task) => {
+
+                const myDate = new Date(task.date);
+                const year = myDate.getFullYear();
+                const month = this.getFormatForNumbersWidhtZeroBefore(myDate.getMonth() + 2);
+                const date = this.getFormatForNumbersWidhtZeroBefore(myDate.getDate());
+                return {
+                    ...task,
+                    date: `${year}-${month}-${date}`
+                }
+            });
+
+        } catch (error) {
+            console.error("Erreur fetchTasksFromApi:", error);
+            this.tasks = [];
+        }
+    }
+
+    getDaysInFebruary(year = this.stateYear) {
         if (year === null) throw new Error("Year not set");
         return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) ? 29 : 28;
     }
@@ -31,21 +68,15 @@ export class Agenda_model {
     }
 
     agendaWeekTurnLeft() {
-        this.stateDateMs = this.stateDateMs - (60 * 60 * 24 * 7 * 1000);
+        this.stateDateMs -= 60 * 60 * 24 * 7 * 1000;
         const date = new Date(this.stateDateMs);
-        const year = date.getFullYear();
-        const month = this.getFormatForNumbersWidhtZeroBefore(date.getMonth());
-        const day = this.getFormatForNumbersWidhtZeroBefore(date.getDate());
-        return `${year}-${month}-${day}`;
+        return `${date.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(date.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(date.getDate())}`;
     }
 
     agendaWeekTurnRight() {
-        this.stateDateMs = this.stateDateMs + (60 * 60 * 24 * 7 * 1000);
+        this.stateDateMs += 60 * 60 * 24 * 7 * 1000;
         const date = new Date(this.stateDateMs);
-        const year = date.getFullYear();
-        const month = this.getFormatForNumbersWidhtZeroBefore(date.getMonth());
-        const day = this.getFormatForNumbersWidhtZeroBefore(date.getDate());
-        return `${year}-${month}-${day}`;
+        return `${date.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(date.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(date.getDate())}`;
     }
 
     calculerPaques(annee) {
@@ -61,10 +92,9 @@ export class Agenda_model {
         const k = c % 4;
         const l = (32 + 2 * e + 2 * i - h - k) % 7;
         const m = Math.floor((a + 11 * h + 22 * l) / 451);
-        const mois = Math.floor((h + l - 7 * m + 114) / 31); // 3 = mars, 4 = avril
+        const mois = Math.floor((h + l - 7 * m + 114) / 31);
         const jour = ((h + l - 7 * m + 114) % 31) + 1;
-
-        return new Date(annee, mois - 1, jour); // mois - 1 car en JS, janvier = 0
+        return new Date(annee, mois - 1, jour);
     }
 
     ajouterJours(date, nbJours) {
@@ -73,19 +103,21 @@ export class Agenda_model {
         return nouvelleDate;
     }
 
-    getAgendaPerWeek(date = false) {
+    async getAgendaPerWeek(date = false) {
         if (date === false) {
-            return this.init();
+            const currentDate = new Date();
+            date = `${currentDate.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getDate())}`;
         }
+        await this.fetchTasksFromApi();
+
         const dateArray = date.split('-').map(Number);
         const year = dateArray[0];
         const month = dateArray[1];
         const day = dateArray[2];
         const dateSelected = new Date(year, month, day);
 
-        // Calcul du lundi de la semaine
-        let dayOfWeek = dateSelected.getDay(); // 0=dimanche, 1=lundi, ...
-        dayOfWeek = (dayOfWeek === 0) ? 7 : dayOfWeek; // dimanche devient 7
+        let dayOfWeek = dateSelected.getDay();
+        dayOfWeek = (dayOfWeek === 0) ? 7 : dayOfWeek;
         const lundiMs = dateSelected.getTime() - ((dayOfWeek - 1) * 24 * 60 * 60 * 1000);
 
         const weekDayTasks = [];
@@ -94,35 +126,25 @@ export class Agenda_model {
         const currentMonth = currentDate.getMonth();
         const currentDay = currentDate.getDate();
 
-        // calcul des fetes:
         const paques = this.calculerPaques(year);
         const lundiPaques = this.ajouterJours(paques, 1);
         const ascension = this.ajouterJours(paques, 39);
         const pentecote = this.ajouterJours(paques, 50);
 
-        const nouvelAn = new Date(year+1, 0, 1);         // 1er janvier
-        const feteTravail = new Date(year, 4, 1);      // 1er mai
-        const victoire1945 = new Date(year, 4, 8);     // 8 mai
-        const feteNationale = new Date(year, 6, 14);   // 14 juillet
-        const assomption = new Date(year, 7, 15);      // 15 août
-        const toussaint = new Date(year, 10, 1);       // 1er novembre
-        const armistice = new Date(year, 10, 11);      // 11 novembre
-        const noel = new Date(year, 11, 25);           // 25 décembre
-
         const joursFeries = [
-            { type: 'jours férié', name: 'Jour de l’an', date: nouvelAn, bg: 'bgRed' },
+            { type: 'jours férié', name: 'Jour de l’an', date: new Date(year + 1, 0, 1), bg: 'bgRed' },
             { type: 'jours férié', name: 'Lundi de Pâques', date: lundiPaques, bg: 'bgRed' },
-            { type: 'jours férié', name: 'Fête du Travail', date: feteTravail, bg: 'bgRed' },
-            { type: 'jours férié', name: 'Victoire 1945', date: victoire1945, bg: 'bgRed' },
+            { type: 'jours férié', name: 'Fête du Travail', date: new Date(year, 4, 1), bg: 'bgRed' },
+            { type: 'jours férié', name: 'Victoire 1945', date: new Date(year, 4, 8), bg: 'bgRed' },
             { type: 'jours férié', name: 'Ascension', date: ascension, bg: 'bgRed' },
             { type: 'jours férié', name: 'Pentecôte', date: pentecote, bg: 'bgRed' },
-            { type: 'jours férié', name: 'Fête Nationale', date: feteNationale, bg: 'bgRed' },
-            { type: 'jours férié', name: 'Assomption', date: assomption, bg: 'bgRed' },
-            { type: 'jours férié', name: 'Toussaint', date: toussaint, bg: 'bgRed' },
-            { type: 'jours férié', name: 'Armistice', date: armistice, bg: 'bgRed' },
-            { type: 'jours férié', name: 'Noël', date: noel, bg: 'bgRed' },
-            { type: 'jours férié', name: 'Pâques', date: paques, bg: 'bgRed' } // facultatif : dimanche de Pâques
-        ]; 
+            { type: 'jours férié', name: 'Fête Nationale', date: new Date(year, 6, 14), bg: 'bgRed' },
+            { type: 'jours férié', name: 'Assomption', date: new Date(year, 7, 15), bg: 'bgRed' },
+            { type: 'jours férié', name: 'Toussaint', date: new Date(year, 10, 1), bg: 'bgRed' },
+            { type: 'jours férié', name: 'Armistice', date: new Date(year, 10, 11), bg: 'bgRed' },
+            { type: 'jours férié', name: 'Noël', date: new Date(year, 11, 25), bg: 'bgRed' },
+            { type: 'jours férié', name: 'Pâques', date: paques, bg: 'bgRed' }
+        ];
 
         for (let i = 0; i < 7; i++) {
             const dayDateMs = lundiMs + (i * 24 * 60 * 60 * 1000);
@@ -139,52 +161,56 @@ export class Agenda_model {
                 color: 'colorBlack',
                 type: 'tasks',
                 name: 'Poubelles plastiques/cartons',
-                date: date,
+                date,
                 year: dayYear,
                 month: this.getFormatForNumbersWidhtZeroBefore(dayMonth + 1),
                 dateNum: this.getFormatForNumbersWidhtZeroBefore(dayDateNum),
-                dayLetter: dayDate.getDay()
+                dayLetter: dayDay
             });
+
             if (dayDay === 5) tasksByDay.push({
                 bg: "bgBlack",
                 color: 'colorWhite',
                 type: 'tasks',
                 name: 'Poubelles ménagères',
-                date: date,
+                date,
                 year: dayYear,
                 month: this.getFormatForNumbersWidhtZeroBefore(dayMonth + 1),
                 dateNum: this.getFormatForNumbersWidhtZeroBefore(dayDateNum),
-                dayLetter: dayDate.getDay()
+                dayLetter: dayDay
             });
 
-            // ajout des fetes si state actif
             if (this.fetes) {
-                // ajout des jours feriés
-                for (let jf = 0; jf < joursFeries.length; jf++) {
-                    if (dayDate.getTime() === joursFeries[jf].date.getTime()) {
-                        tasksByDay.push(joursFeries[jf]);
+                for (let jf of joursFeries) {
+                    if (dayDate.getTime() === jf.date.getTime()) {
+                        tasksByDay.push(jf);
                     }
                 }
             }
 
-            const weekDays = { year: dayYear, month: dayMonth + 1, dayDateNum: dayDateNum, isFetes: this.fetes };
-            weekDays.isCurrentDay = (currentYear === dayYear && currentMonth === dayMonth && currentDay === dayDateNum);
+            const weekDays = {
+                year: dayYear,
+                month: dayMonth + 1,
+                dayDateNum,
+                isFetes: this.fetes,
+                isCurrentDay: (currentYear === dayYear && currentMonth === dayMonth && currentDay === dayDateNum)
+            };
 
-            for (let j = 0; j < tasks.length; j++) {
-                const taskDateArray = tasks[j].date.split('-').map(Number);
+            for (let task of this.tasks) {
+                const [taskYear, taskMonth, taskDay] = task.date.split('-').map(Number);
                 if (
-                    dayYear === taskDateArray[0] &&
-                    dayMonth + 1 === taskDateArray[1] &&
-                    dayDateNum === taskDateArray[2]
+                    taskYear === dayYear &&
+                    taskMonth === dayMonth + 1 &&
+                    taskDay === dayDateNum
                 ) {
                     tasksByDay.push({
-                        type: tasks[j].type,
-                        name: tasks[j].name,
-                        date: date,
+                        type: task.type,
+                        name: task.name,
+                        date,
                         year: dayYear,
-                        month: this.getFormatForNumbersWidhtZeroBefore(dayMonth + 1),
-                        dateNum: this.getFormatForNumbersWidhtZeroBefore(dayDateNum),
-                        dayLetter: dayDate.getDay()
+                        month: this.getFormatForNumbersWidhtZeroBefore(taskMonth),
+                        dateNum: this.getFormatForNumbersWidhtZeroBefore(taskDay),
+                        dayLetter: dayDay
                     });
                 }
             }
@@ -194,54 +220,47 @@ export class Agenda_model {
         return {
             dateSelected: { year: year, month: month + 1, dateDate: day },
             weekDays: weekDayTasks
-        }
+        };
     }
 
     getAgendaPerYear(year = false) {
-        if (year === false) year = new Date().getFullYear();
+        if (!year) year = new Date().getFullYear();
         const daysPerMonths = [31, this.getDaysInFebruary(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         const currentDate = new Date();
-        const date = `${currentDate.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getDate())}`;
         this.stateDateMs = currentDate;
 
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth();
         const currentDay = currentDate.getDate();
 
-        return daysPerMonths.map((myMonth, index) => {
-            return {
-                year: year,
-                month: index + 1,
-                days: Array.from({ length: myMonth }, (_, i) => i + 1).map((day) => {
-                    return {
-                        isCurrentDay: (year === currentYear && index + 1 === currentMonth && day === currentDay) ? true : false,
-                        day: day,
-                        task: this.checkIfTask(tasks, year, index + 1, day) || null
-                    };
-                })
-            };
-        });
+        return daysPerMonths.map((days, index) => ({
+            year,
+            month: index + 1,
+            days: Array.from({ length: days }, (_, i) => {
+                const day = i + 1;
+                return {
+                    isCurrentDay: year === currentYear && index === currentMonth && day === currentDay,
+                    day,
+                    task: this.checkIfTask(year, index + 1, day)
+                };
+            })
+        }));
     }
 
-    checkIfTask(tasks, year, month, day) {
-        const matchedTasks = tasks.filter((task) => {
+    checkIfTask(year, month, day) {
+        const matchedTasks = this.tasks.filter(task => {
             const [taskYear, taskMonth, taskDay] = task.date.split("-").map(Number);
-            return (
-                Number(taskYear) === Number(year) &&
-                Number(taskMonth) === Number(month) &&
-                Number(taskDay) === Number(day)
-            );
+            return taskYear === year && taskMonth === month && taskDay === day;
         });
-        return matchedTasks.length > 0 ? matchedTasks : null;
+        return matchedTasks.length ? matchedTasks : null;
     }
 
-    init() {
-        const year = new Date().getFullYear();
-        const daysPerMonths = [31, this.getDaysInFebruary(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    async init() {
+        await this.fetchTasksFromApi();
         const currentDate = new Date();
         const date = `${currentDate.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getDate())}`;
         this.stateDateMs = currentDate.getTime();
-        this.stateYear = new Date().getFullYear();
+        this.stateYear = currentDate.getFullYear();
         return this.getAgendaPerWeek(date);
     }
 }
