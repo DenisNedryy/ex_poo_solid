@@ -243,6 +243,7 @@ export class AgendaView {
                 if (weekDays[i].tasksByDay[j].color) {
                     li.classList.add(weekDays[i].tasksByDay[j].color);
                 }
+                console.log(weekDays[i].tasksByDay[j]);
                 // modal focus li
                 const modalLiContainer = document.createElement("div");
                 modalLiContainer.className = "modalLiContainer";
@@ -302,27 +303,45 @@ export class AgendaView {
 
     toggleOpenCloseTask(e) {
         const task = e.target;
+        const container = task.closest(".agendaWeek__box");
+        const containerCollection = container.children;
+        Array.from(containerCollection).forEach((cc) => {
+            const lis = cc.querySelectorAll(".normalWeekLi");
+            lis.forEach(li => {
+                li.classList.remove("protected");
+            });
+        });
+
+        task.classList.add("protected");
         const modal = task.querySelector(".modalLi");
-        console.log(modal);
         if (modal.classList.contains("hidden")) {
-            this.openTask(task);
+            this.openTask(task, e);
         } else {
-            this.closeTask(task);
+            this.closeTask(task, e);
         }
     }
 
-    openTask(task) {
-        this.closeTask(task);
+    openTask(task, e) {
+        this.closeTask(task, e);
         const modal = task.querySelector(".modalLi");
         modal.classList.remove("hidden");
+        document.querySelectorAll(".normalWeekLi").forEach((li) => {
+            return li.classList.add("blured");
+        });
     }
 
-    closeTask(task) {
+    closeTask(task, e) {
         const modal = task.querySelector(".modalLi");
         if (!modal) return;
 
         const container = modal.closest(".agendaWeek__box");
         if (!container) return;
+
+        const myModal = task.querySelector(".modalLi");
+
+        document.querySelectorAll(".normalWeekLi").forEach((li) => {
+            li.classList.remove("blured");
+        });
 
         const containerCollection = container.children;
         Array.from(containerCollection).forEach((cc) => {

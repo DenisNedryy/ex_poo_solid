@@ -215,6 +215,7 @@ export class Agenda_model {
                     tasksByDay.push({
                         type: task.type,
                         name: task.name,
+                        description: task.description,
                         date,
                         year: dayYear,
                         month: this.getFormatForNumbersWidhtZeroBefore(taskMonth),

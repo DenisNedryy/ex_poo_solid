@@ -82,8 +82,11 @@ export class HomeEventBinder {
         } else if (e.target.classList.contains("btn-submit-addTask")) {
             const form = e.target.closest("form");
             this.addTask(form);
-        }else if(e.target.classList.contains("normalWeekLi")){
+        } else if (e.target.classList.contains("normalWeekLi")) {
             this.agendaView.toggleOpenCloseTask(e);
+        } else if (e.target.classList.contains("closeTask")) {
+            const task = e.target.closest("li");
+            this.agendaView.closeTask(task, e);
         }
     }
 
