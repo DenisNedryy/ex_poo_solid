@@ -25,7 +25,7 @@ export class Agenda_model {
 
             const auth = await this.getMyUser();
 
-            this.tasks = this.tasks.filter((task) => task.user_id === (this.userIdSelected? this.userIdSelected : auth.id));
+            this.tasks = this.tasks.filter((task) => task.user_id === (this.userIdSelected ? this.userIdSelected : auth.id));
             this.tasks = this.tasks.map((task) => {
 
                 const myDate = new Date(task.date);
@@ -103,9 +103,13 @@ export class Agenda_model {
         return nouvelleDate;
     }
 
-    async getPlanning(){
-         await this.fetchTasksFromApi();
-         console.log(this.tasks);
+    sortTasksByDate(tasks) {
+        return tasks.sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    async getPlanning() {
+        await this.fetchTasksFromApi();
+        return this.tasks;
     }
 
     async getAgendaPerWeek(date = false) {

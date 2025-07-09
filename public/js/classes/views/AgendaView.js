@@ -236,13 +236,57 @@ export class AgendaView {
 
                 const li = document.createElement("li");
                 li.textContent = weekDays[i].tasksByDay[j].name;
-                li.className = weekDays[i].weekDays.isCurrentDay ? "currentWeekLi" : "";
+                li.className = weekDays[i].weekDays.isCurrentDay ? "currentWeekLi normalWeekLi" : "normalWeekLi";
                 if (weekDays[i].tasksByDay[j].bg) {
                     li.classList.add(weekDays[i].tasksByDay[j].bg);
                 }
                 if (weekDays[i].tasksByDay[j].color) {
                     li.classList.add(weekDays[i].tasksByDay[j].color);
                 }
+                // modal focus li
+                const modalLiContainer = document.createElement("div");
+                modalLiContainer.className = "modalLiContainer";
+
+                const modalLi = document.createElement("div");
+                modalLi.className = "modalLi hidden";
+                // header
+                const header = document.createElement("div");
+                header.className = "modalLi__header";
+                // update
+                const updateTask = document.createElement("i");
+                updateTask.className = "fa-solid fa-pen updateTask";
+                // delete
+                const deleteTask = document.createElement("i");
+                deleteTask.className = "fa-solid fa-trash-can deleteTask";
+                // close task
+                const closeTask = document.createElement("i");
+                closeTask.className = "fa-solid fa-xmark closeTask";
+
+                header.appendChild(updateTask);
+                header.appendChild(deleteTask);
+                header.appendChild(closeTask);
+
+                // mettre modif delete fermer
+
+                // taskName + date
+                const bodyContainer = document.createElement("div");
+                const bodyName = document.createElement("p");
+                bodyName.textContent = weekDays[i].tasksByDay[j].name;
+                const bodyDate = document.createElement("p");
+                bodyDate.textContent = `${weekDays[i].tasksByDay[j].date}`;
+
+                // task.description
+                const description = document.createElement("p");
+                description.textContent = weekDays[i].tasksByDay[j].description;
+
+                bodyContainer.appendChild(bodyName);
+                bodyContainer.appendChild(bodyDate);
+                bodyContainer.appendChild(description);
+
+                modalLi.appendChild(header);
+                modalLi.appendChild(bodyContainer);
+                li.appendChild(modalLi);
+
                 ul.appendChild(li);
             }
 
@@ -256,38 +300,107 @@ export class AgendaView {
         el.appendChild(modal);
     }
 
+    toggleOpenCloseTask(e) {
+        const task = e.target;
+        const modal = task.querySelector(".modalLi");
+        console.log(modal);
+        if (modal.classList.contains("hidden")) {
+            this.openTask(task);
+        } else {
+            this.closeTask(task);
+        }
+    }
+
+    openTask(task) {
+        this.closeTask(task);
+        const modal = task.querySelector(".modalLi");
+        modal.classList.remove("hidden");
+    }
+
+    closeTask(task) {
+        const modal = task.querySelector(".modalLi");
+        if (!modal) return;
+
+        const container = modal.closest(".agendaWeek__box");
+        if (!container) return;
+
+        const containerCollection = container.children;
+        Array.from(containerCollection).forEach((cc) => {
+            const lis = cc.querySelectorAll(".normalWeekLi");
+            lis.forEach(li => {
+                const currentModalLi = li.querySelector(".modalLi");
+                if (currentModalLi) {
+                    currentModalLi.classList.add("hidden");
+                }
+            });
+        });
+    }
+
+
+    renderViewMod(el) {
+        // viewMod (semaine, mois, planning)
+        const viewMode = document.createElement("div");
+        viewMode.className = "viewMode";
+        const viewModePara = document.createElement("p");
+        viewModePara.className = "viewModePara";
+        viewModePara.textContent = this.modeView;
+        viewMode.appendChild(viewModePara);
+
+        const modList = document.createElement("ul");
+        const weekView = document.createElement("li");
+        weekView.className = "weekViewLi"
+        weekView.textContent = "Semaine";
+        modList.appendChild(weekView);
+        const yearView = document.createElement("li");
+        yearView.className = "yearViewLi";
+        yearView.textContent = "Année";
+        modList.appendChild(yearView);
+
+        const planningView = document.createElement("li");
+        planningView.className = "listViewLi";
+        planningView.textContent = "Planning";
+        modList.appendChild(planningView);
+
+        viewMode.appendChild(modList);
+        el.appendChild(viewMode);
+    }
+
     renderPlanning(data) {
         const el = document.querySelector("#agenda");
         if (el) {
             el.innerHTML = "";
+            this.renderViewMod(el);
 
-            // viewMod (semaine, mois, planning)
-            const viewMode = document.createElement("div");
-            viewMode.className = "viewMode";
-            const viewModePara = document.createElement("p");
-            viewModePara.className = "viewModePara";
-            viewModePara.textContent = this.modeView;
-            viewMode.appendChild(viewModePara);
+            const planningDiv = document.createElement("div");
+            planningDiv.className = "planning";
+            for (let i = 0; i < data.length; i++) {
+                const task = document.createElement("div");
+                task.className = "planning__task";
+                const task_date = document.createElement("div");
+                task_date.className = "panning__task__date";
+                const date = this.convertDateForPlanning(data[i].date);
 
-            const modList = document.createElement("ul");
-            const weekView = document.createElement("li");
-            weekView.className = "weekViewLi"
-            weekView.textContent = "Semaine";
-            modList.appendChild(weekView);
-            const yearView = document.createElement("li");
-            yearView.className = "yearViewLi";
-            yearView.textContent = "Année";
-            modList.appendChild(yearView);
+                const task_date_para = document.createElement("p");
+                task_date_para.textContent = date;
+                task_date.appendChild(task_date_para);
 
-            const planningView = document.createElement("li");
-            planningView.className = "listViewLi";
-            planningView.textContent = "Planning";
-            modList.appendChild(planningView);
+                const task_textContent = document.createElement("div");
+                const task_textContent_para = document.createElement("p");
+                task_textContent_para.textContent = data[i].name;
+                task_textContent.appendChild(task_textContent_para);
 
-            viewMode.appendChild(modList);
-            el.appendChild(viewMode);
-            agendaYearConsole.appendChild(viewMode);
+                task.appendChild(task_date);
+                task.appendChild(task_textContent);
+                planningDiv.appendChild(task);
+            }
+
+            el.appendChild(planningDiv);
         }
+    }
+
+    convertDateForPlanning(val) {
+        const valArray = val.split("-");
+        return `${valArray[2]} ${this.yearMonth[Number(valArray[1])]} ${valArray[0]}`;
     }
 
 
