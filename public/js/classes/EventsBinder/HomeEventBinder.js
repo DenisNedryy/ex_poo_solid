@@ -91,6 +91,16 @@ export class HomeEventBinder {
             const date = new Date(this.agendaModel.stateDateMs);
             const calendarData = await this.agendaModel.getAgendaPerWeek(date);
             await this.agendaView.renderCalendarWeek(calendarData);
+        } else if (e.target.classList.contains("numero")) {
+            const numero = e.target;
+            const dataDate = numero.getAttribute("data-date");
+            const dataDateArray = dataDate.split("-");
+            const year = dataDateArray[0];
+            const month = dataDateArray[1];
+            const day = dataDateArray[2];
+            const newDate = new Date(year, month, day);
+            const calendarData = await this.agendaModel.getAgendaPerWeek(newDate);
+            await this.agendaView.renderCalendarWeek(calendarData);
         }
     }
 
