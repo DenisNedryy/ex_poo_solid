@@ -85,8 +85,11 @@ export class HomeEventBinder {
         } else if (e.target.classList.contains("normalWeekLi")) {
             this.agendaView.toggleOpenCloseTask(e);
         } else if (e.target.classList.contains("closeTask")) {
-            const task = e.target.closest("li");
-            this.agendaView.closeTask(task, e);
+            this.agendaView.toggleOpenCloseTask(e);
+        } else if (e.target.classList.contains("deleteTask")) {
+            this.agendaView.deleteMyTask(e);
+            const calendarData = await this.agendaModel.getAgendaPerWeek();
+            await this.agendaView.renderCalendarWeek(calendarData);
         }
     }
 

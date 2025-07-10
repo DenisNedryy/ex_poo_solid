@@ -56,7 +56,7 @@ export async function createTask(data) {
                 author_id: data.author_id || null
             }),
         });
-        const res = await preRes.json(); 
+        const res = await preRes.json();
         return {
             status: preRes.status,
             ok: preRes.ok,
@@ -84,7 +84,7 @@ export async function updateTask(data, id) {
         const res = await preRes.json();
         return {
             status: preRes.status,
-            ok: preRes.ok, 
+            ok: preRes.ok,
             data: res
         };
     } catch (err) {

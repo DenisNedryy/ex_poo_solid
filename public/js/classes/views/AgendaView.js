@@ -1,5 +1,6 @@
 
 import { getUsers, getMyProfil } from "../../services/Auth.js";
+import { readOneTask, deleteTask } from "../../services/tasks.js";
 import { HOST } from "../../host.js";
 
 export class AgendaView {
@@ -57,6 +58,55 @@ export class AgendaView {
         return res.data.user;
     }
 
+    focusModal(el) {
+        // modal focus li
+        const modalLiContainer = document.createElement("div");
+        modalLiContainer.className = "modalLiContainer hidden";
+
+        const modalLi = document.createElement("div");
+        modalLi.className = "modalLi";
+        // header
+        const header = document.createElement("div");
+        header.className = "modalLi__header";
+        // update
+        const updateTask = document.createElement("i");
+        updateTask.className = "fa-solid fa-pen updateTask";
+        // delete
+        const deleteTask = document.createElement("i");
+        deleteTask.className = "fa-solid fa-trash-can deleteTask";
+        // close task
+        const closeTask = document.createElement("i");
+        closeTask.className = "fa-solid fa-xmark closeTask";
+
+        header.appendChild(updateTask);
+        header.appendChild(deleteTask);
+        header.appendChild(closeTask);
+
+        // mettre modif delete fermer
+
+        // taskName + date
+        const bodyContainer = document.createElement("div");
+        bodyContainer.className = "modalFocus__body"
+        const bodyName = document.createElement("p");
+        bodyName.className = "modalFocus-name";
+        const bodyDate = document.createElement("p");
+        bodyDate.className = "modalFocus-date";
+
+        // task.description
+        const description = document.createElement("p");
+        description.className = "modalFocus-description";
+
+        bodyContainer.appendChild(bodyName);
+        bodyContainer.appendChild(bodyDate);
+        bodyContainer.appendChild(description);
+
+        modalLi.appendChild(header);
+        modalLi.appendChild(bodyContainer);
+        modalLiContainer.appendChild(modalLi);
+        el.appendChild(modalLiContainer);
+
+    }
+
     async renderWeekView(data, el) {
         await this.renderAgendaConsole();
 
@@ -67,6 +117,8 @@ export class AgendaView {
         const year = dateSelected.year;
         const month = dateSelected.month;
         const dateDate = dateSelected.dateDate;
+
+        this.focusModal(el);
 
         // MODAL
         const modal = document.createElement("div");
@@ -237,56 +289,13 @@ export class AgendaView {
                 const li = document.createElement("li");
                 li.textContent = weekDays[i].tasksByDay[j].name;
                 li.className = weekDays[i].weekDays.isCurrentDay ? "currentWeekLi normalWeekLi" : "normalWeekLi";
+                li.setAttribute("data-id", weekDays[i].tasksByDay[j].id);
                 if (weekDays[i].tasksByDay[j].bg) {
                     li.classList.add(weekDays[i].tasksByDay[j].bg);
                 }
                 if (weekDays[i].tasksByDay[j].color) {
                     li.classList.add(weekDays[i].tasksByDay[j].color);
                 }
-                console.log(weekDays[i].tasksByDay[j]);
-                // modal focus li
-                const modalLiContainer = document.createElement("div");
-                modalLiContainer.className = "modalLiContainer";
-
-                const modalLi = document.createElement("div");
-                modalLi.className = "modalLi hidden";
-                // header
-                const header = document.createElement("div");
-                header.className = "modalLi__header";
-                // update
-                const updateTask = document.createElement("i");
-                updateTask.className = "fa-solid fa-pen updateTask";
-                // delete
-                const deleteTask = document.createElement("i");
-                deleteTask.className = "fa-solid fa-trash-can deleteTask";
-                // close task
-                const closeTask = document.createElement("i");
-                closeTask.className = "fa-solid fa-xmark closeTask";
-
-                header.appendChild(updateTask);
-                header.appendChild(deleteTask);
-                header.appendChild(closeTask);
-
-                // mettre modif delete fermer
-
-                // taskName + date
-                const bodyContainer = document.createElement("div");
-                const bodyName = document.createElement("p");
-                bodyName.textContent = weekDays[i].tasksByDay[j].name;
-                const bodyDate = document.createElement("p");
-                bodyDate.textContent = `${weekDays[i].tasksByDay[j].date}`;
-
-                // task.description
-                const description = document.createElement("p");
-                description.textContent = weekDays[i].tasksByDay[j].description;
-
-                bodyContainer.appendChild(bodyName);
-                bodyContainer.appendChild(bodyDate);
-                bodyContainer.appendChild(description);
-
-                modalLi.appendChild(header);
-                modalLi.appendChild(bodyContainer);
-                li.appendChild(modalLi);
 
                 ul.appendChild(li);
             }
@@ -301,59 +310,59 @@ export class AgendaView {
         el.appendChild(modal);
     }
 
-    toggleOpenCloseTask(e) {
-        const task = e.target;
-        const container = task.closest(".agendaWeek__box");
-        const containerCollection = container.children;
-        Array.from(containerCollection).forEach((cc) => {
-            const lis = cc.querySelectorAll(".normalWeekLi");
-            lis.forEach(li => {
-                li.classList.remove("protected");
-            });
-        });
+    async toggleOpenCloseTask(e) {
 
-        task.classList.add("protected");
-        const modal = task.querySelector(".modalLi");
+        const modal = document.querySelector(".modalLiContainer ");
+
+        // récup info pour le modal
+        const task = e.target;
+        const task_id = task.getAttribute("data-id");
+        const res = await readOneTask(task_id);
+        const task_data = res.data.tasks;
+
+        // ajout id pour le modal
+        modal.setAttribute("data-id", task_id);
+
+        // convertion DATE en string
+        const newDate = new Date(task_data.date);
+        const year = newDate.getFullYear();
+        const month = newDate.getMonth();
+        const day = newDate.getDate();
+        const stringDate = `${year}-${month}-${day}`;
+
+        // injection dynamique
+        const nameEl = document.querySelector(".modalFocus-name");
+        const dateEl = document.querySelector(".modalFocus-date");
+        const descriptionEl = document.querySelector(".modalFocus-description");
+        nameEl.textContent = task_data.name;
+
+        dateEl.textContent = this.convertDateForPlanning(stringDate);
+        descriptionEl.textContent = task_data.description;
+
         if (modal.classList.contains("hidden")) {
-            this.openTask(task, e);
+            this.openTask();
         } else {
-            this.closeTask(task, e);
+            this.closeTask();
         }
     }
 
-    openTask(task, e) {
-        this.closeTask(task, e);
-        const modal = task.querySelector(".modalLi");
+    openTask() {
+        const modal = document.querySelector(".modalLiContainer ");
         modal.classList.remove("hidden");
-        document.querySelectorAll(".normalWeekLi").forEach((li) => {
-            return li.classList.add("blured");
-        });
     }
 
-    closeTask(task, e) {
-        const modal = task.querySelector(".modalLi");
-        if (!modal) return;
-
-        const container = modal.closest(".agendaWeek__box");
-        if (!container) return;
-
-        const myModal = task.querySelector(".modalLi");
-
-        document.querySelectorAll(".normalWeekLi").forEach((li) => {
-            li.classList.remove("blured");
-        });
-
-        const containerCollection = container.children;
-        Array.from(containerCollection).forEach((cc) => {
-            const lis = cc.querySelectorAll(".normalWeekLi");
-            lis.forEach(li => {
-                const currentModalLi = li.querySelector(".modalLi");
-                if (currentModalLi) {
-                    currentModalLi.classList.add("hidden");
-                }
-            });
-        });
+    closeTask() {
+        const modal = document.querySelector(".modalLiContainer ");
+        modal.classList.add("hidden");
     }
+
+    async deleteMyTask(e) {
+        const modal = document.querySelector(".modalLiContainer");
+        const task_id = modal.getAttribute("data-id");
+        const res = await deleteTask(task_id);
+        console.log(res);
+    }
+
 
 
     renderViewMod(el) {

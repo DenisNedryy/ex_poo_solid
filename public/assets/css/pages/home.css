@@ -13,6 +13,7 @@
 /* AGENDA YEAR */
 #agenda {
     padding: 21px;
+    position: relative;
 }
 
 .agendaWeek__console {
@@ -452,7 +453,9 @@ body .hidden {
 
 .modalLi {
     position: absolute;
-    top: 0;
+    z-index: 999;
+    top: 50%;
+    left: 30%;
     border-radius: 15px;
     padding: 15px;
     background-color: rgb(41, 44, 49);
@@ -465,22 +468,37 @@ body .hidden {
 
 .modalLi__header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-end; 
 }
 
 .modalLiContainer {
-    position: relative;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: white;
+    z-index: 999;
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modalLi__header i{
+    margin-left: 10px;
+    cursor:pointer;
 }
 
-html body .blured {
-    filter: blur(32px) !important;
+.modalFocus-name{
+    text-transform:capitalize;
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom:10px;
 }
 
-html body .protected {
-    filter: blur(0px) !important;
+.modalFocus-description{
+    margin-top: 15px;
+}
+
+.modalFocus__body{
+    padding: 15px;
 }

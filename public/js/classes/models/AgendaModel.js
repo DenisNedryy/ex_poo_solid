@@ -213,6 +213,7 @@ export class Agenda_model {
                     taskDay === dayDateNum
                 ) {
                     tasksByDay.push({
+                        id: task.id,
                         type: task.type,
                         name: task.name,
                         description: task.description,
