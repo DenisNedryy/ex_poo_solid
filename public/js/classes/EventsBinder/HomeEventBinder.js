@@ -43,6 +43,7 @@ export class HomeEventBinder {
             const calendarData = await this.agendaModel.getAgendaPerWeek(dateYYYYMMDD);
             await this.agendaView.renderCalendarWeek(calendarData);
         } else if (e.target.classList.contains("agendaWeek__console__today")) {
+            // maj de stateDateMs
             const calendarData = await this.agendaModel.getAgendaPerWeek();
             await this.agendaView.renderCalendarWeek(calendarData);
         } else if (e.target.classList.contains("planningViewLi")) {
@@ -51,8 +52,7 @@ export class HomeEventBinder {
         } else if (e.target.classList.contains("listViewLi")) {
             const calendarData = this.agendaModel.getPlanning();
             this.agendaView.renderPlanning(calendarData);
-        }
-        else if (e.target.classList.contains("yearViewLi")) {
+        } else if (e.target.classList.contains("yearViewLi")) {
             const calendarData = this.agendaModel.getAgendaPerYear();
             this.agendaView.renderCalendarYear(calendarData);
         } else if (e.target.classList.contains("weekViewLi")) {
@@ -88,7 +88,8 @@ export class HomeEventBinder {
             this.agendaView.toggleOpenCloseTask(e);
         } else if (e.target.classList.contains("deleteTask")) {
             this.agendaView.deleteMyTask(e);
-            const calendarData = await this.agendaModel.getAgendaPerWeek();
+            const date = new Date(this.agendaModel.stateDateMs);
+            const calendarData = await this.agendaModel.getAgendaPerWeek(date);
             await this.agendaView.renderCalendarWeek(calendarData);
         }
     }

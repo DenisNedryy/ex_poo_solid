@@ -112,11 +112,24 @@ export class Agenda_model {
         return this.tasks;
     }
 
+    convertDateToSTring(date) {
+        const year = date.getFullYear();
+        const month = this.getFormatForNumbersWidhtZeroBefore(date.getMonth());
+        const day = this.getFormatForNumbersWidhtZeroBefore(date.getDate());
+        return `${year}-${month}-${day}`;
+    }
+
     async getAgendaPerWeek(date = false) {
         if (date === false) {
             const currentDate = new Date();
+            this.stateDateMs = currentDate.getTime();
             date = `${currentDate.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getDate())}`;
         }
+
+        if (typeof date !== 'string') {
+            date = this.convertDateToSTring(date);
+        }
+
         await this.fetchTasksFromApi();
 
         const dateArray = date.split('-').map(Number);

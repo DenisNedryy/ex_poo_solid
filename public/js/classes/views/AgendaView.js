@@ -428,7 +428,7 @@ export class AgendaView {
 
     convertDateForPlanning(val) {
         const valArray = val.split("-");
-        return `${valArray[2]} ${this.yearMonth[Number(valArray[1])]} ${valArray[0]}`;
+        return `${valArray[2]} ${this.yearMonth[Number(valArray[1]-1)]} ${valArray[0]}`;
     }
 
 
