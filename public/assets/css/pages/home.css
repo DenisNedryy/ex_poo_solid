@@ -468,7 +468,7 @@ body .hidden {
 
 .modalLi__header {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: flex-end;
 }
 
 .modalLiContainer {
@@ -483,22 +483,44 @@ body .hidden {
     justify-content: center;
     align-items: center;
 }
-.modalLi__header i{
+
+.modalLi__header i {
     margin-left: 10px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
-.modalFocus-name{
-    text-transform:capitalize;
+.modalFocus-name {
+    text-transform: capitalize;
     font-size: 21px;
     font-weight: 600;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
-.modalFocus-description{
+.modalFocus-description {
     margin-top: 15px;
 }
 
-.modalFocus__body{
+.modalFocus__body {
     padding: 15px;
+}
+
+.btn-submit-updateTask {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.btn-submit-updateTask i {
+    margin-right: 5px;
+}
+
+.modalLi form {
+    border: 1px solid white;
+    padding: 15px;
+    margin: 24px 0px;
+    border-radius: 10px;
+}
+.modalLi form>div{
+    display:flex;
+    flex-direction:column;
 }

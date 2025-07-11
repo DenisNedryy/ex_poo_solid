@@ -69,7 +69,7 @@ export async function createTask(data) {
 
 export async function updateTask(data, id) {
     try {
-        const preRes = await fetch(`${HOST}/api/task/${id}`, {
+        const preRes = await fetch(`${HOST}/api/tasks/${id}`, {
             method: "PUT",
             headers: {
                 'Content-Type': "application/json"
@@ -78,7 +78,6 @@ export async function updateTask(data, id) {
             body: JSON.stringify({
                 name: data.name,
                 description: data.description,
-                type: type,
             }),
         });
         const res = await preRes.json();

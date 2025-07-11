@@ -64,16 +64,15 @@ exports.createTask = async (req, res, next) => {
 exports.updateTask = async (req, res, next) => {
     try {
         const taskId = req.params.id;
-        const { name, description, type } = req.body;
+        const { name, description } = req.body;
 
         const data = {
             name: name || null,
             description: description || null,
-            type: type || null,
         }
 
         const keys = Object.keys(data).filter((key) => data[key] !== null);
-        const values = Object.values((value) => value !== null);
+        const values = Object.values(data).filter((value) => value !== null);
         const placeholder = keys.map((key) => `${key} = ?`).join(", ");
         values.push(taskId);
 

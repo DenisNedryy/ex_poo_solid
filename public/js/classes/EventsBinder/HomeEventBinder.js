@@ -101,6 +101,13 @@ export class HomeEventBinder {
             const newDate = new Date(year, month, day);
             const calendarData = await this.agendaModel.getAgendaPerWeek(newDate);
             await this.agendaView.renderCalendarWeek(calendarData);
+        } else if (e.target.classList.contains("updateTask")) {
+            this.agendaView.showUpdateTaskForm(e);
+        } else if (e.target.classList.contains("btn-submit-updateTask")) {
+            this.agendaView.updateMyTask(e);
+            const date = new Date(this.agendaModel.stateDateMs);
+            const calendarData = await this.agendaModel.getAgendaPerWeek(date);
+            await this.agendaView.renderCalendarWeek(calendarData);
         }
     }
 

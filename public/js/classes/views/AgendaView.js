@@ -1,6 +1,6 @@
 
 import { getUsers, getMyProfil } from "../../services/Auth.js";
-import { readOneTask, deleteTask } from "../../services/tasks.js";
+import { readOneTask, deleteTask, updateTask } from "../../services/tasks.js";
 import { HOST } from "../../host.js";
 
 export class AgendaView {
@@ -58,7 +58,63 @@ export class AgendaView {
         return res.data.user;
     }
 
+    showUpdateTaskForm() {
+        const updateDiv = document.querySelector(".updateDiv");
+        updateDiv.innerHTML = "";
+        const form = document.createElement("form");
+        // update-name
+        const divName = document.createElement("div");
+        const labelName = document.createElement("label");
+        labelName.textContent = "Name";
+        const inputName = document.createElement("input");
+        inputName.type = "text";
+        inputName.name = "name";
+        divName.appendChild(labelName);
+        divName.appendChild(inputName);
+        // update-description
+        const divDescription = document.createElement("div");
+        const labelDescription = document.createElement("label");
+        labelDescription.textContent = "Description";
+        const inputDescription = document.createElement("input");
+        inputDescription.type = "text";
+        inputDescription.name = "description";
+        divDescription.appendChild(labelDescription);
+        divDescription.appendChild(inputDescription);
+        // update-submit
+        const btn = document.createElement("button");
+        btn.className = "btn-submit-updateTask";
+        const i = document.createElement("i");
+        i.className = "fa-solid fa-floppy-disk";
+        const para = document.createElement("p");
+        para.textContent = "Sauvegarder";
+        btn.appendChild(i);
+        btn.appendChild(para);
+
+
+        form.appendChild(divName);
+        form.appendChild(divDescription);
+        form.appendChild(btn);
+        updateDiv.appendChild(form);
+    }
+
+    async updateMyTask(e) {
+        e.preventDefault();
+        const btn = e.target;
+        const form = btn.closest("form");
+        const name = form.elements['name'].value;
+        const description = form.elements['description'].value;
+        form.reset();
+        const data = { name: name, description: description };
+        const id = form.closest(".updateDiv").getAttribute("data-id");
+        console.log(id);
+        console.log(data);
+        const res = await updateTask(data, id);
+        console.log(res);
+
+    }
+
     focusModal(el) {
+
         // modal focus li
         const modalLiContainer = document.createElement("div");
         modalLiContainer.className = "modalLiContainer hidden";
@@ -96,9 +152,14 @@ export class AgendaView {
         const description = document.createElement("p");
         description.className = "modalFocus-description";
 
+        // updateDiv
+        const updateDiv = document.createElement("div");
+        updateDiv.className = "updateDiv";
+
         bodyContainer.appendChild(bodyName);
         bodyContainer.appendChild(bodyDate);
         bodyContainer.appendChild(description);
+        bodyContainer.appendChild(updateDiv);
 
         modalLi.appendChild(header);
         modalLi.appendChild(bodyContainer);
@@ -331,6 +392,8 @@ export class AgendaView {
         const stringDate = `${year}-${month}-${day}`;
 
         // injection dynamique
+        const updateDiv = document.querySelector(".updateDiv");
+        updateDiv.setAttribute("data-id", task_data.id);
         const nameEl = document.querySelector(".modalFocus-name");
         const dateEl = document.querySelector(".modalFocus-date");
         const descriptionEl = document.querySelector(".modalFocus-description");
@@ -354,6 +417,9 @@ export class AgendaView {
     closeTask() {
         const modal = document.querySelector(".modalLiContainer ");
         modal.classList.add("hidden");
+        // reset updateDiv part
+        const areset = document.querySelector(".updateDiv");
+        areset.innerHTML = "";
     }
 
     async deleteMyTask(e) {
@@ -428,7 +494,7 @@ export class AgendaView {
 
     convertDateForPlanning(val) {
         const valArray = val.split("-");
-        return `${valArray[2]} ${this.yearMonth[Number(valArray[1]-1)]} ${valArray[0]}`;
+        return `${valArray[2]} ${this.yearMonth[Number(valArray[1] - 1)]} ${valArray[0]}`;
     }
 
 
