@@ -30,10 +30,8 @@ exports.readOneTask = async (req, res, next) => {
 };
 
 exports.createTask = async (req, res, next) => {
-    console.log("CTRL createTask");
     try {
-        const { name, description, date, type, author_id } = req.body;
-        console.log(req.auth.userId);
+        const { name, description, date, type, author_id, owner_id } = req.body;
 
         const data = {
             id: uuidv4(),
@@ -41,13 +39,12 @@ exports.createTask = async (req, res, next) => {
             description: description || null,
             date: date || null,
             type: type || null,
-            author_id: author_id || null
+            author_id: author_id || null,
+            owner_id: owner_id || null
         }
-        if (author_id !== null) {
-            data.user_id = author_id;
-        } else {
-            data.user_id = req.auth.userId;
-        }
+
+        data.user_id = owner_id;
+
 
         const keys = Object.keys(data).filter((key) => data[key] !== null);
         const values = keys.map((key) => data[key]);
@@ -64,6 +61,13 @@ exports.createTask = async (req, res, next) => {
 exports.updateTask = async (req, res, next) => {
     try {
         const taskId = req.params.id;
+
+        const [task] = await pool.execute("SELECT * FROM tasks WHERE id = ?", [taskId]);
+        if (req.auth.userId !== task[0].user_id) {
+            console.log(console.log(req.auth.userId));
+            console.log(task[0].user_id);
+            return res.status(400).json({ msg: "action non authorisée" });
+        }
         const { name, description } = req.body;
 
         const data = {
@@ -87,6 +91,8 @@ exports.updateTask = async (req, res, next) => {
 exports.deleteTask = async (req, res, next) => {
     try {
         const taskId = req.params.id;
+        const [task] = await pool.execute("SELECT * FROM tasks WHERE id = ?", [taskId]);
+        if (req.auth.userId !== task[0].user_id) return res.status(400).json({ msg: "action non authorisée" })
         await pool.execute(`DELETE FROM tasks WHERE id = ?`, [taskId]);
         return res.status(200).json({ msg: "task deleted" });
     } catch (err) {

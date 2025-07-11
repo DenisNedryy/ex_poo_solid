@@ -1,5 +1,5 @@
 
-import { getUsers, getMyProfil } from "../../services/Auth.js";
+import { getUsers, getMyProfil, getOneUser } from "../../services/Auth.js";
 import { readOneTask, deleteTask, updateTask } from "../../services/tasks.js";
 import { HOST } from "../../host.js";
 
@@ -87,6 +87,7 @@ export class AgendaView {
         i.className = "fa-solid fa-floppy-disk";
         const para = document.createElement("p");
         para.textContent = "Sauvegarder";
+        para.className = "para-submitTask"
         btn.appendChild(i);
         btn.appendChild(para);
 
@@ -97,23 +98,15 @@ export class AgendaView {
         updateDiv.appendChild(form);
     }
 
-    async updateMyTask(e) {
+    async updateMyTask(e, btn) {
         e.preventDefault();
-        console.log("update task");
-        const btn = e.target;
         const form = btn.closest("form");
         const name = form.elements['name'].value;
         const description = form.elements['description'].value;
         form.reset();
         const data = { name: name || null, description: description || null };
-        console.log(data);
         const id = form.closest(".updateDiv").getAttribute("data-id");
-        console.log(id);
-        console.log(data);
         const res = await updateTask(data, id);
-        console.log(res);
-        // this.closeTask();
-
     }
 
     focusModal(el) {
@@ -351,7 +344,20 @@ export class AgendaView {
             for (let j = 0; j < weekDays[i].tasksByDay.length; j++) {
 
                 const li = document.createElement("li");
-                li.textContent = weekDays[i].tasksByDay[j].name;
+                const liAvatar = document.createElement("img");
+                const author_id = weekDays[i].tasksByDay[j].author_id || null;
+
+                if (author_id) {
+                    const res = await getOneUser(author_id);
+                    const avatar = res.data.user.img_url;
+                    liAvatar.setAttribute("src", `${HOST}/api/images/avatars/${avatar}`);
+                    li.appendChild(liAvatar);
+                }
+
+                const liPara = document.createElement("p");
+                li.appendChild(liPara);
+                // console.log(weekDays[i].tasksByDay[j]);
+                liPara.textContent = weekDays[i].tasksByDay[j].name;
                 li.className = weekDays[i].weekDays.isCurrentDay ? "currentWeekLi normalWeekLi" : "normalWeekLi";
                 li.setAttribute("data-id", weekDays[i].tasksByDay[j].id);
                 if (weekDays[i].tasksByDay[j].bg) {
@@ -429,7 +435,6 @@ export class AgendaView {
         const modal = document.querySelector(".modalLiContainer");
         const task_id = modal.getAttribute("data-id");
         const res = await deleteTask(task_id);
-        console.log(res);
     }
 
 

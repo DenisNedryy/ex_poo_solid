@@ -53,7 +53,8 @@ export async function createTask(data) {
                 description: data.description,
                 date: data.date,
                 type: data.type,
-                author_id: data.author_id || null
+                author_id: data.author_id || null,
+                owner_id: data.owner_id || null
             }),
         });
         const res = await preRes.json();

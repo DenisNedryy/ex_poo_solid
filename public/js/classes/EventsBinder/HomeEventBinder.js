@@ -99,13 +99,14 @@ export class HomeEventBinder {
             const month = dataDateArray[1];
             const day = dataDateArray[2];
             const newDate = new Date(year, month, day);
+            this.agendaModel.stateDateMs = newDate.getTime();
             const calendarData = await this.agendaModel.getAgendaPerWeek(newDate);
             await this.agendaView.renderCalendarWeek(calendarData);
         } else if (e.target.classList.contains("updateTask")) {
             this.agendaView.showUpdateTaskForm(e);
-        } else if (e.target.classList.contains("btn-submit-updateTask")) {
-            console.log("submiting update task");
-            this.agendaView.updateMyTask(e);
+        } else if (e.target.classList.contains("btn-submit-updateTask") || e.target.classList.contains("fa-floppy-disk") || e.target.classList.contains("para-submitTask")) {
+            const btn = e.target.closest(".btn-submit-updateTask");
+            this.agendaView.updateMyTask(e, btn);
             const date = new Date(this.agendaModel.stateDateMs);
             const calendarData = await this.agendaModel.getAgendaPerWeek(date);
             await this.agendaView.renderCalendarWeek(calendarData);
@@ -121,15 +122,14 @@ export class HomeEventBinder {
             name: name,
             description: description,
             type: type,
-            date: date
+            date: date,
+            owner_id: this.agendaModel.userIdSelected
         }
 
         // check if auth!==current 
         const auth = this.agendaView.authUser;
         const currentUser = this.agendaView.userSelected;
-
-        if (auth.id !== currentUser.id) data.author_id = currentUser.id;
-
+        if (auth.id !== currentUser.id) data.author_id = auth.id;
         // il faut rajouter le author id 
         const res = await createTask(data);
         const calendarData = await this.agendaModel.getAgendaPerWeek(date);

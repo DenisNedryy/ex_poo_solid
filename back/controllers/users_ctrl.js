@@ -7,7 +7,7 @@ const fs = require('fs').promises;
 
 exports.getUsers = async (req, res, next) => {
     try {
-        const [users] = await pool.execute(`SELECT name, img_url, id FROM users`);
+        const [users] = await pool.execute(`SELECT * FROM users`);
         if (users.length === 0) { return res.status(200).json({ users: [] }) };
         return res.status(200).json({ users: users });
     } catch (err) {
@@ -16,9 +16,11 @@ exports.getUsers = async (req, res, next) => {
 }
 
 exports.getOneUser = async (req, res, next) => {
+    console.log("ctrl getoneUser");
     try {
         const id = req.params.id;
-        const [users] = await pool.execute(`SELECT name, img_url, id FROM users WHERE id = ?`,[id]);
+        console.log(id);
+        const [users] = await pool.execute(`SELECT * FROM users WHERE id = ?`,[id]);
         if (users.length === 0) { return res.status(200).json({ users: [] }) };
         return res.status(200).json({ user: users[0] });
     } catch (err) {

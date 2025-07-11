@@ -227,6 +227,8 @@ export class Agenda_model {
                 ) {
                     tasksByDay.push({
                         id: task.id,
+                        author_id: task.author_id || null,
+                        owner_id: task.owner_id || null,
                         type: task.type,
                         name: task.name,
                         description: task.description,
