@@ -99,17 +99,20 @@ export class AgendaView {
 
     async updateMyTask(e) {
         e.preventDefault();
+        console.log("update task");
         const btn = e.target;
         const form = btn.closest("form");
         const name = form.elements['name'].value;
         const description = form.elements['description'].value;
         form.reset();
-        const data = { name: name, description: description };
+        const data = { name: name || null, description: description || null };
+        console.log(data);
         const id = form.closest(".updateDiv").getAttribute("data-id");
         console.log(id);
         console.log(data);
         const res = await updateTask(data, id);
         console.log(res);
+        // this.closeTask();
 
     }
 

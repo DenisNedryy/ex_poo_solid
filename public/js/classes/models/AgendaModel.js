@@ -120,6 +120,7 @@ export class Agenda_model {
     }
 
     async getAgendaPerWeek(date = false) {
+        await this.fetchTasksFromApi();
         if (date === false) {
             const currentDate = new Date();
             this.stateDateMs = currentDate.getTime();
@@ -130,7 +131,6 @@ export class Agenda_model {
             date = this.convertDateToSTring(date);
         }
 
-        await this.fetchTasksFromApi();
 
         const dateArray = date.split('-').map(Number);
         const year = dateArray[0];

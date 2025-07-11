@@ -104,6 +104,7 @@ export class HomeEventBinder {
         } else if (e.target.classList.contains("updateTask")) {
             this.agendaView.showUpdateTaskForm(e);
         } else if (e.target.classList.contains("btn-submit-updateTask")) {
+            console.log("submiting update task");
             this.agendaView.updateMyTask(e);
             const date = new Date(this.agendaModel.stateDateMs);
             const calendarData = await this.agendaModel.getAgendaPerWeek(date);
