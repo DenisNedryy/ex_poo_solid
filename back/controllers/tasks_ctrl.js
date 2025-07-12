@@ -40,15 +40,19 @@ exports.createTask = async (req, res, next) => {
             date: date || null,
             type: type || null,
             author_id: author_id || null,
-            owner_id: owner_id || null
+            owner_id: owner_id || null 
         }
 
+        console.log(data);
         data.user_id = owner_id;
 
 
         const keys = Object.keys(data).filter((key) => data[key] !== null);
+        console.log(keys);
         const values = keys.map((key) => data[key]);
+        console.log(values);
         const placeholder = keys.map(() => "?").join(", ");
+        console.log(placeholder);
 
         await pool.execute(`INSERT INTO tasks (${keys.join(", ")}) VALUES(${placeholder})`, values);
         return res.status(200).json({ msg: "task created" })
@@ -92,6 +96,7 @@ exports.deleteTask = async (req, res, next) => {
     try {
         const taskId = req.params.id;
         const [task] = await pool.execute("SELECT * FROM tasks WHERE id = ?", [taskId]);
+
         if (req.auth.userId !== task[0].user_id) return res.status(400).json({ msg: "action non authorisée" })
         await pool.execute(`DELETE FROM tasks WHERE id = ?`, [taskId]);
         return res.status(200).json({ msg: "task deleted" });

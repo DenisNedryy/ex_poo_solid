@@ -9,6 +9,13 @@ export class HomeEventBinder {
         this.homeView = homeView;
         this.boundHandleClickTask = this.handleClickTask.bind(this);
         this.boundHandleChange = this.handleChangeTask.bind(this);
+        this.init();
+    }
+
+    async init() {
+        const auth = await this.agendaView.getMyUser();
+        this.agendaView.userSelected = auth;
+        this.agendaModel.userIdSelected = auth.id;
     }
 
     addEventListeners() {
@@ -82,12 +89,12 @@ export class HomeEventBinder {
         } else if (e.target.classList.contains("btn-submit-addTask")) {
             const form = e.target.closest("form");
             this.addTask(form);
-        } else if (e.target.classList.contains("normalWeekLi")) {
+        } else if (e.target.classList.contains("normalWeekLi") || e.target.classList.contains("normalWeekLiPara")) {
             this.agendaView.toggleOpenCloseTask(e);
         } else if (e.target.classList.contains("closeTask")) {
             this.agendaView.toggleOpenCloseTask(e);
         } else if (e.target.classList.contains("deleteTask")) {
-            this.agendaView.deleteMyTask(e);
+            await this.agendaView.deleteMyTask(e);
             const date = new Date(this.agendaModel.stateDateMs);
             const calendarData = await this.agendaModel.getAgendaPerWeek(date);
             await this.agendaView.renderCalendarWeek(calendarData);
@@ -125,6 +132,7 @@ export class HomeEventBinder {
             date: date,
             owner_id: this.agendaModel.userIdSelected
         }
+        console.log(data);
 
         // check if auth!==current 
         const auth = this.agendaView.authUser;

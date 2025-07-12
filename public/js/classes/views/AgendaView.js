@@ -346,8 +346,9 @@ export class AgendaView {
                 const li = document.createElement("li");
                 const liAvatar = document.createElement("img");
                 const author_id = weekDays[i].tasksByDay[j].author_id || null;
+                const owner_id = weekDays[i].tasksByDay[j].owner_id
 
-                if (author_id) {
+                if (author_id && owner_id && author_id !== owner_id) {
                     const res = await getOneUser(author_id);
                     const avatar = res.data.user.img_url;
                     liAvatar.setAttribute("src", `${HOST}/api/images/avatars/${avatar}`);
@@ -355,6 +356,7 @@ export class AgendaView {
                 }
 
                 const liPara = document.createElement("p");
+                liPara.className = "normalWeekLiPara"
                 li.appendChild(liPara);
                 // console.log(weekDays[i].tasksByDay[j]);
                 liPara.textContent = weekDays[i].tasksByDay[j].name;
@@ -385,7 +387,10 @@ export class AgendaView {
         const modal = document.querySelector(".modalLiContainer ");
 
         // récup info pour le modal
-        const task = e.target;
+        let task = null;
+        console.log(e.target.closest(".normalWeekLi"));
+        if (e.target.closest(".normalWeekLi")) task = e.target.closest(".normalWeekLi");
+        if (e.target.closest(".modalLiContainer")) task = e.target.closest(".modalLiContainer");
         const task_id = task.getAttribute("data-id");
         const res = await readOneTask(task_id);
         const task_data = res.data.tasks;

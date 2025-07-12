@@ -39,7 +39,7 @@ export class DailyPlanningView {
                     <div class="tache">
                         <p class="${tache.isDone ? 'rayé' : ''} tache__name">${tache.name}</p>
                         <div class="${tache.isDone ? 'bg_green' : ''} tache__isDone" data-index=${index}>
-                         ${tache.isDone ? "<i class='fa-solid fa-check check'></i>" : ""}
+                         ${tache.isDone ? "<i class='fa-solid fa-check check dailyPlaningTask'></i>" : ""}
                          </div>
                     </div>
                 `;

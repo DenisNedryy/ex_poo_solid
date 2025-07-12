@@ -7,8 +7,8 @@ export class Agenda_model {
     constructor() {
         this.tasks = [];
         this.stateDateMs = null;
-        this.userIdSelected = null;
-        this.auth = null;
+        this.userIdSelected = null,
+            this.auth = null;
         this.stateYear = null;
         this.fetes = true;
     }
@@ -16,6 +16,11 @@ export class Agenda_model {
     async getMyUser() {
         const res = await getMyProfil();
         return res.data.user;
+    }
+
+    async getConnectionUser() {
+        const user = await this.getMyUser();
+        return user.id;
     }
 
     async fetchTasksFromApi() {
@@ -282,11 +287,12 @@ export class Agenda_model {
     }
 
     async init() {
+        await this.getConnectionUser();
         await this.fetchTasksFromApi();
         const currentDate = new Date();
         const date = `${currentDate.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getDate())}`;
         this.stateDateMs = currentDate.getTime();
         this.stateYear = currentDate.getFullYear();
-        return this.getAgendaPerWeek(date);
+        return this.getAgendaPerWeek(date); 
     }
 }

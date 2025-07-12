@@ -13,7 +13,7 @@ export class DailyPlanningEventBinder {
     }
 
     handleClickTask(e) {
-        if (e.target.classList.contains("tache__isDone") || e.target.classList.contains("fa-solid") || e.target.classList.contains("check")) {
+        if (e.target.classList.contains("tache__isDone") || e.target.classList.contains("dailyPlaningTask") || e.target.classList.contains("check")) {
 
             const task = e.target.closest(".tache__isDone");
             const index = task.getAttribute("data-index");
