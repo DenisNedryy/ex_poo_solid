@@ -132,7 +132,6 @@ export class HomeEventBinder {
             date: date,
             owner_id: this.agendaModel.userIdSelected
         }
-        console.log(data);
 
         // check if auth!==current 
         const auth = this.agendaView.authUser;
