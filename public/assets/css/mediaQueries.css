@@ -1,0 +1,12 @@
+@media screen and (max-width: 1776px) {
+    body .dayFiche {
+        width: 202px;
+    }
+}
+
+
+@media screen and (max-width: 1460px) {
+    body .dayFiche {
+        width: 145px;
+    }
+}

@@ -80,9 +80,10 @@ export class HomeEventBinder {
             this.agendaModel.fetes = !this.agendaModel.fetes;
             const calendarData = await this.agendaModel.getAgendaPerWeek();
             await this.agendaView.renderCalendarWeek(calendarData);
-        } else if (e.target.classList.contains("addTask")) {
+        } else if (e.target.classList.contains("addTask") || e.target.classList.contains("btnTaskP") || e.target.classList.contains("btnTaskI")) {
+            const btn = e.target.closest(".addTask");
             this.agendaView.toggleModal();
-            this.clickedDate = e.target.getAttribute("data-date");
+            this.clickedDate = btn.getAttribute("data-date");
         } else if (e.target.classList.contains("leaveModal")) {
             console.log(this.agendaView.modal);
             this.agendaView.hideModal();

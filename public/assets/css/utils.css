@@ -88,12 +88,12 @@ html body .bgJaune {
 }
 
 html body .bgBlack {
-    background-color: black !important;
+    background-color: #33841c !important;
     filter: brightness(.8);
 }
 
 html body .bgRed {
-    background-color: red !important;
+    background-color: #b03838 !important;
 }
 
 html body .colorWhite {
@@ -117,15 +117,24 @@ html body .colorBlack {
 }
 
 html body .addTask {
-    font-weight: 600;
-    text-align: center;
-    /* background: linear-gradient(275deg, rgba(102, 255, 102, 0.38) 31%, rgba(20, 40, 20, 0.67) 85%) !important; */
-    padding: 10px;
-    background-color: rgb(36, 50, 49)!important;
-    border: 1px solid rgb(91, 192, 110)!important;
-    color: white;
+    padding: 11px;
+    border-radius: 3px;
+    width: 95%;
+    margin: 2px;
+    background-color: rgb(23, 28, 42) !important;
+    display: flex;
+    align-items: center;
+}
+html body .addTask i{
+    margin-right: 10px;
+}
+
+
+
+html body .addTask:hover {
+    /* background-color: rgb(36, 50, 49) !important; */
 }
 
 html body .addTask:hover {
-    filter: brightness(1);
+    /* filter: brightness(1); */
 }

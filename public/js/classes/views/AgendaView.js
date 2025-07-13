@@ -335,7 +335,13 @@ export class AgendaView {
 
             // add Btn
             const addBtn = document.createElement("li");
-            addBtn.textContent = "Ajouter une tâche";
+            const btnTaskI = document.createElement("i");
+            btnTaskI.className = "fa-solid fa-plus btnTaskI";
+            const btnTaskP = document.createElement("p");
+            btnTaskP.textContent = "Ajouter une tâche";
+            btnTaskP.className="btnTaskP";
+            addBtn.appendChild(btnTaskI);
+            addBtn.appendChild(btnTaskP);
             addBtn.className = "addTask";
             addBtn.setAttribute("data-date", `${weekDays[i].weekDays.year}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.month - 1)}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.dayDateNum)}`);
             this.currentDate = `${weekDays[i].weekDays.year}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.month - 1)}-${this.getFormatForNumbersWidhtZeroBefore(weekDays[i].weekDays.dayDateNum)}`;
