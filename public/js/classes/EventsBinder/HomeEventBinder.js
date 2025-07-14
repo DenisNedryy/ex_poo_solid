@@ -118,6 +118,28 @@ export class HomeEventBinder {
             const date = new Date(this.agendaModel.stateDateMs);
             const calendarData = await this.agendaModel.getAgendaPerWeek(date);
             await this.agendaView.renderCalendarWeek(calendarData);
+        } else if (e.target.classList.contains("planning__switchContainer--all")) {
+            const calendarData = await this.agendaModel.getPlanning();
+            this.agendaView.renderPlanning(calendarData);
+        } else if (e.target.classList.contains("planning__switchContainer--task")) {
+            const calendarData = await this.agendaModel.getPlanningTasks();
+            this.agendaView.renderPlanning(calendarData);
+        }
+        else if (e.target.classList.contains("planning__switchContainer--courses")) {
+            const calendarData = await this.agendaModel.getPlanningCourses();
+            this.agendaView.renderPlanning(calendarData);
+        }
+        else if (e.target.classList.contains("planning__switchContainer--rdv")) {
+            const calendarData = await this.agendaModel.getPlanningRdvs();
+            this.agendaView.renderPlanning(calendarData);
+        }
+        else if (e.target.classList.contains("planning__switchContainer--events")) {
+            const calendarData = await this.agendaModel.getPlanningEvents();
+            this.agendaView.renderPlanning(calendarData);
+        }
+        else if (e.target.classList.contains("planning__switchContainer--projets")) {
+            const calendarData = await this.agendaModel.getPlanningProjets();
+            this.agendaView.renderPlanning(calendarData);
         }
     }
 

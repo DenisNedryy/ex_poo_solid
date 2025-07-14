@@ -447,20 +447,54 @@ body .hidden {
 
 
 /* ---------planning-------- */
+
+.planning__switchContainer {
+    display: flex;
+    margin: 10px 15px;
+}
+
+.planning__switchContainer>div {
+    padding: 10px;
+    border: 1px solid rgb(255, 255, 255, .2);
+    margin: 5px;
+    cursor:pointer;
+    border-radius:3px;
+}
+
+.planning__switchContainer>div:hover {
+    background-color: rgb(77, 82, 95);
+}
+
 .planning {
     display: flex;
     flex-direction: column;
+    margin: 26px 16px;
 }
 
 .planning__task {
     display: flex;
-    margin: 1px;
-    padding: 15px;
-    background-color: grey;
+    align-items: center;
+    padding: 21px;
+    background-color: rgba(0, 0, 0, .2);
+    margin: 3px;
+    width: 532px;
+    justify-content: space-between;
 }
 
 .panning__task__date {
     margin-right: 15px;
+}
+
+.planning__task__type p {
+    width: 100px;
+}
+
+.panning__task__date p {
+    width: 100px;
+}
+
+.planning__task__name p {
+    width: 200px;
 }
 
 

@@ -339,7 +339,7 @@ export class AgendaView {
             btnTaskI.className = "fa-solid fa-plus btnTaskI";
             const btnTaskP = document.createElement("p");
             btnTaskP.textContent = "Ajouter une tâche";
-            btnTaskP.className="btnTaskP";
+            btnTaskP.className = "btnTaskP";
             addBtn.appendChild(btnTaskI);
             addBtn.appendChild(btnTaskP);
             addBtn.className = "addTask";
@@ -477,34 +477,91 @@ export class AgendaView {
         viewMode.appendChild(modList);
         el.appendChild(viewMode);
     }
+    renderPlanningSwitchs(el) {
+        // container
+        const container = document.createElement("div");
+        container.className = "planning__switchContainer";
+        // btn-all
+        const tout = document.createElement("div");
+        tout.className = "planning__switchContainer--all";
+        tout.textContent = "Tout";
+        // btn-tasks
+        const tasks = document.createElement("div");
+        tasks.className = "planning__switchContainer--task";
+        tasks.textContent = "tâches";
+        // btn-courses
+        const courses = document.createElement("div");
+        courses.className = "planning__switchContainer--courses";
+        courses.textContent = "Courses";
+        // btn-rdv
+        const rdv = document.createElement("div");
+        rdv.className = "planning__switchContainer--rdv";
+        rdv.textContent = "Rdv";
+        // btn-events
+        const events = document.createElement("div");
+        events.className = "planning__switchContainer--events";
+        events.textContent = "Evenements";
+        // btn-projects
+        const projets = document.createElement("div");
+        projets.className = "planning__switchContainer--projets";
+        projets.textContent = "Projets";
+
+        container.appendChild(tout);
+        container.appendChild(tasks);
+        container.appendChild(courses);
+        container.appendChild(rdv);
+        container.appendChild(events);
+        container.appendChild(projets);
+
+        el.appendChild(container);
+
+    }
 
     renderPlanning(data) {
         const el = document.querySelector("#agenda");
         if (el) {
             el.innerHTML = "";
+            this.renderPlanningSwitchs(el);
             this.renderViewMod(el);
+
+            let cpt = 0;
 
             const planningDiv = document.createElement("div");
             planningDiv.className = "planning";
             for (let i = 0; i < data.length; i++) {
                 const task = document.createElement("div");
-                task.className = "planning__task";
+                task.className = "planning__task fade-in";
+                // type
+                const task_type = document.createElement("div");
+                task_type.className = "planning__task__type";
+                const task_type_para = document.createElement("p");
+                task_type_para.textContent = data[i].type;
+                // date
                 const task_date = document.createElement("div");
                 task_date.className = "panning__task__date";
                 const date = this.convertDateForPlanning(data[i].date);
-
                 const task_date_para = document.createElement("p");
                 task_date_para.textContent = date;
-                task_date.appendChild(task_date_para);
-
+                // name
                 const task_textContent = document.createElement("div");
+                task_textContent.className = "planning__task__name"
                 const task_textContent_para = document.createElement("p");
                 task_textContent_para.textContent = data[i].name;
+
+
+                task_type.appendChild(task_type_para);
+                task_date.appendChild(task_date_para);
                 task_textContent.appendChild(task_textContent_para);
 
+                task.appendChild(task_type);
                 task.appendChild(task_date);
                 task.appendChild(task_textContent);
-                planningDiv.appendChild(task);
+                setTimeout(() => {
+                    planningDiv.appendChild(task);
+                }, cpt);
+
+                cpt += 100;
+
             }
 
             el.appendChild(planningDiv);

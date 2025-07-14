@@ -121,7 +121,7 @@ export class RestaurantsView {
                     restaurantContent.appendChild(fiche);
                 }, cpt);
 
-                cpt += 100;
+                cpt += 100; 
 
             });
 

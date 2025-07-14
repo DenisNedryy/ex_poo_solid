@@ -114,7 +114,28 @@ export class Agenda_model {
 
     async getPlanning() {
         await this.fetchTasksFromApi();
-        return this.tasks;
+        console.log(this.tasks);
+        return this.sortTasksByDate(this.tasks);
+    }
+    async getPlanningTasks() { 
+        await this.fetchTasksFromApi();
+        return this.sortTasksByDate(this.tasks.filter((task) => task.type === "tasks"));
+    }
+    async getPlanningCourses() {
+        await this.fetchTasksFromApi();
+        return this.sortTasksByDate(this.tasks.filter((task) => task.type === "courses"));
+    }
+    async getPlanningRdvs() {
+        await this.fetchTasksFromApi();
+        return this.sortTasksByDate(this.tasks.filter((task) => task.type === "rdvs"));
+    }
+    async getPlanningEvents() {
+        await this.fetchTasksFromApi();
+        return this.sortTasksByDate(this.tasks.filter((task) => task.type === "events"));
+    }
+    async getPlanningProjets() {
+        await this.fetchTasksFromApi();
+        return this.sortTasksByDate(this.tasks.filter((task) => task.type === "projets"));
     }
 
     convertDateToSTring(date) {
@@ -293,6 +314,6 @@ export class Agenda_model {
         const date = `${currentDate.getFullYear()}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getMonth())}-${this.getFormatForNumbersWidhtZeroBefore(currentDate.getDate())}`;
         this.stateDateMs = currentDate.getTime();
         this.stateYear = currentDate.getFullYear();
-        return this.getAgendaPerWeek(date); 
+        return this.getAgendaPerWeek(date);
     }
 }
