@@ -1,3 +1,3 @@
 export const gifs = [
-    "mariage","merry_smoke","pippin-laugh", "leo", "porto","rly"
+    "psy","mariage","merry_smoke","pippin-laugh", "leo", "porto","rly"
 ];
